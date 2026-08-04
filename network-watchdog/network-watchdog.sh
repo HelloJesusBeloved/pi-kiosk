@@ -60,6 +60,12 @@ NETWORK_INCIDENT="NONE"
 
 RECOVERY_ACTIVE=false
 
+# Number of consecutive failed checks required before beginning recovery.
+FAILURE_CONFIRMATIONS=3
+
+# Seconds between confirmation attempts.
+FAILURE_CONFIRM_DELAY=10
+
 
 ###############################################################################
 # Logging
