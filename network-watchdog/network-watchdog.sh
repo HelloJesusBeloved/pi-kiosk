@@ -366,6 +366,32 @@ verify_failure() {
 
     log "Verifying network failure..."
 
+    local attempt
+
+    for (( attempt=1; attempt<=FAILURE_CONFIRMATIONS; attempt++ ))
+    do
+
+        log "Verification ${attempt}/${FAILURE_CONFIRMATIONS}..."
+
+        sleep "${FAILURE_CONFIRM_DELAY}"
+
+        collect_network_state
+        evaluate_network_health
+        classify_network_incident
+
+        if [[ "$NETWORK_HEALTH" == "HEALTHY" ]]
+        then
+            log "Failure cleared during verification."
+
+            return 1
+        fi
+
+    done
+
+    log "Failure confirmed."
+
+    return 0
+
 }
 
 
@@ -458,7 +484,13 @@ recover_network() {
 
     log "Starting recovery sequence."
 
-    verify_failure
+    if ! verify_failure
+    then
+    	log "Recovery cancelled."
+
+    	RECOVERY_ACTIVE=false
+    	return
+    fi
 
     if attempt_wifi_reconnect
     then
