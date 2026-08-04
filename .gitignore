@@ -1,0 +1,15 @@
+# Runtime state
+network-watchdog/state/*
+
+# macOS
+.DS_Store
+
+# Vim swap files
+*.swp
+*.swo
+
+# Temporary files
+*~
+
+# Generated logs
+*.log

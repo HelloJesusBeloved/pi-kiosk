@@ -1,0 +1,20 @@
+[Unit]
+Description=Network Watchdog
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+ExecStart=%h/.local/bin/network-watchdog.sh
+
+Restart=on-failure
+RestartSec=10
+
+StandardOutput=journal
+StandardError=journal
+
+SyslogIdentifier=network-watchdog
+
+[Install]
+WantedBy=default.target
