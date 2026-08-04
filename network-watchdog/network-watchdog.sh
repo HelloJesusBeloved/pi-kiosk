@@ -492,11 +492,23 @@ recover_network() {
     	return
     fi
 
+    RECOVERY_ID=$((RECOVERY_ID + 1))
+    LAST_FAILURE="$NETWORK_INCIDENT"
+    LAST_FAILURE_TIME="$(date '+%F %T')"
+
+    save_state
+
+    log "Recovery #${RECOVERY_ID}, Incident: $NETWORK_INCIDENT"
+
     if attempt_wifi_reconnect
     then
         log "Recovery successful."
 
         RECOVERY_ACTIVE=false
+	LAST_SUCCESS_TIME="$(date '+%F %T')"
+
+	save_state
+
         return
     fi
 
@@ -505,6 +517,10 @@ recover_network() {
         log "Recovery successful."
 
         RECOVERY_ACTIVE=false
+	LAST_SUCCESS_TIME="$(date '+%F %T')"
+
+	save_state
+
         return
     fi
 
