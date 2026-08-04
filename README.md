@@ -4,6 +4,7 @@ Code written mostly by ChatGPT, while I put together the code and decided the fi
 Also, this is not here because I neccessarily want to share it YET, it is mainly here to have a cloud backup that I can also easily pull to my other Pi's.
 
 Below is written entirely by ChatGPT, tho I plan to make it better.
+
 ◽Services:
 
 firefox-kiosk.service
