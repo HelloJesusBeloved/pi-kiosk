@@ -506,6 +506,7 @@ recover_network() {
 
         RECOVERY_ACTIVE=false
 	LAST_SUCCESS_TIME="$(date '+%F %T')"
+	WIFI_RECONNECTS=$((WIFI_RECONNECTS + 1))
 
 	save_state
 
@@ -518,6 +519,7 @@ recover_network() {
 
         RECOVERY_ACTIVE=false
 	LAST_SUCCESS_TIME="$(date '+%F %T')"
+	NM_RESTARTS=$((NM_RESTARTS + 1))
 
 	save_state
 
@@ -527,6 +529,7 @@ recover_network() {
     request_reboot
 
     RECOVERY_ACTIVE=false
+    REBOOTS=$((REBOOTS + 1))
 
 }
 
