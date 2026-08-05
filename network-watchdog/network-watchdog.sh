@@ -93,7 +93,7 @@ initialize_state() {
     cat > "$STATE_FILE" << EOF
 VERSION=$VERSION
 
-RECOVERY_ID=0
+RECOVERY_COUNT=0
 
 WIFI_RECONNECTS=0
 
@@ -124,7 +124,7 @@ save_state() {
     cat > "$STATE_FILE" << EOF
 VERSION=$VERSION
 
-RECOVERY_ID=$RECOVERY_ID
+RECOVERY_COUNT=$RECOVERY_COUNT
 
 WIFI_RECONNECTS=$WIFI_RECONNECTS
 
@@ -155,7 +155,7 @@ log_startup() {
     log "Version ${VERSION}"
     log "============================================================"
 
-    log "Recovery ID        : ${RECOVERY_ID}"
+    log "Recovery Count     : ${RECOVERY_COUNT}"
     log "Wi-Fi Reconnects   : ${WIFI_RECONNECTS}"
     log "NM Restarts        : ${NM_RESTARTS}"
     log "Reboots            : ${REBOOTS}"
@@ -492,13 +492,13 @@ recover_network() {
     	return
     fi
 
-    RECOVERY_ID=$((RECOVERY_ID + 1))
+    RECOVERY_COUNT=$((RECOVERY_COUNT + 1))
     LAST_FAILURE="$NETWORK_INCIDENT"
     LAST_FAILURE_TIME="$(date '+%F %T')"
 
     save_state
 
-    log "Recovery #${RECOVERY_ID}, Incident: $NETWORK_INCIDENT"
+    log "Recovery #${RECOVERY_COUNT}, Incident: $NETWORK_INCIDENT"
 
     if attempt_wifi_reconnect
     then
