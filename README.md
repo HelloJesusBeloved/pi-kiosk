@@ -2,6 +2,7 @@ DISCLAIMER:
 Code written mostly by ChatGPT, while I put together the code and decided the final logic. Currently in development. Made for the Raspberry Pi 5, Debian 13 (Trixie), Wayland. May work on other Pi's running Wayland, but not tested.
 
 Also, this is not here because I neccessarily want to share it YET, it is mainly here to have a cloud backup that I can also easily pull to my other Pi's.
+If you have any questions, suggestions, comments, literally just want to say hi(: please feel free to create an "Issue" and let me know! ☺️ Idk why git doesn't have just a comment option or a discussion option by default lol, if you know how to add that to a Forgejo repo then create an "Issue" and let me know about that too!
 
 Below is written entirely by ChatGPT, tho I plan to make it better.
 
