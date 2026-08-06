@@ -534,6 +534,7 @@ recover_network() {
 	WIFI_RECONNECTS=$((WIFI_RECONNECTS + 1))
 
 	save_state
+	restart_firefox
 
         return
     fi
@@ -547,6 +548,7 @@ recover_network() {
 	NM_RESTARTS=$((NM_RESTARTS + 1))
 
 	save_state
+	restart_firefox
 
         return
     fi
