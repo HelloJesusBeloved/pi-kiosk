@@ -371,7 +371,7 @@ restart_firefox() {
 
     if systemctl --user restart firefox-kiosk.service
     then
-        log "Firefox controller restarted."
+        log "Firefox controller restarted successfully."
         return 0
     fi
 
