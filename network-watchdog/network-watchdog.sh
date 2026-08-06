@@ -112,6 +112,7 @@ EOF
 
 
 load_state() {
+# Retrieve and make active the variables from the state file
 
     source "$STATE_FILE"
 
