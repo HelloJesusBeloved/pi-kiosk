@@ -364,16 +364,22 @@ log_network_state() {
 
 
 restart_firefox() {
-# Ensure FireFox does not display the "Server Not Found" error page after Internet connection is restored
 
-	sleep 5
+    log "Restarting Firefox controller..."
 
-	log "Restarting Firefox controller."
+    sleep 5
 
-	systemctl --user restart firefox-kiosk.service
+    if systemctl --user restart firefox-kiosk.service
+    then
+        log "Firefox controller restarted."
+        return 0
+    fi
+
+    log "[WARNING] Failed to restart Firefox controller."
+
+    return 1
 
 }
-
 
 
 ###############################################################################
