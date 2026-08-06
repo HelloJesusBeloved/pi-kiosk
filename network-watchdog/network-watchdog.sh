@@ -359,6 +359,24 @@ log_network_state() {
 
 
 ###############################################################################
+# Peripherals Recovery
+###############################################################################
+
+
+restart_firefox() {
+# Ensure FireFox does not display the "Server Not Found" error page after Internet connection is restored
+
+	sleep 5
+
+	log "Restarting Firefox controller."
+
+	systemctl --user restart firefox-kiosk.service
+
+}
+
+
+
+###############################################################################
 # Network Recovery
 ###############################################################################
 
