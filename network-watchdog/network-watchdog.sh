@@ -704,7 +704,14 @@ recover_network() {
         return
     fi
 
-    request_reboot
+    if ! request_reboot
+    then
+        log "Reboot request denied. Continuing network monitoring."
+
+        RECOVERY_ACTIVE=false
+
+        return
+    fi
 
 }
 
