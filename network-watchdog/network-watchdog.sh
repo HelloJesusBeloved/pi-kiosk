@@ -26,6 +26,13 @@ STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog.state"
 SHAREPOINT_URL="https://fairmounthomesorg.sharepoint.com/sites/TVAnnouncementsHC"
 
 
+# For: verify_failure()
+# Number of consecutive failed checks required before beginning recovery.
+FAILURE_CONFIRMATIONS=3
+
+# Seconds between confirmation attempts.
+FAILURE_CONFIRM_DELAY=10
+
 
 
 ###############################################################################
@@ -60,11 +67,6 @@ NETWORK_INCIDENT="NONE"
 
 RECOVERY_ACTIVE=false
 
-# Number of consecutive failed checks required before beginning recovery.
-FAILURE_CONFIRMATIONS=3
-
-# Seconds between confirmation attempts.
-FAILURE_CONFIRM_DELAY=10
 
 
 ###############################################################################
