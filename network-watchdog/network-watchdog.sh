@@ -442,6 +442,42 @@ verify_failure() {
 }
 
 
+record_recovery_success() {
+
+    local recovery_type="$1"
+
+
+    LAST_SUCCESS_TIME="$(date '+%F %T')"
+
+    RECOVERY_ACTIVE=false
+
+    WATCHDOG_REBOOT=false
+
+    CONSECUTIVE_REBOOTS=0
+
+
+    case "$recovery_type" in
+
+        wifi)
+            WIFI_RECONNECTS=$((WIFI_RECONNECTS + 1))
+            ;;
+
+        networkmanager)
+            NM_RESTARTS=$((NM_RESTARTS + 1))
+            ;;
+
+        *)
+            log "Unknown recovery type: $recovery_type"
+            ;;
+
+    esac
+
+
+    save_state
+
+}
+
+
 attempt_wifi_reconnect() {
 
     log "Attempting Wi-Fi disconnect and reconnect."
@@ -551,9 +587,7 @@ recover_network() {
     then
         log "Recovery successful."
 
-        RECOVERY_ACTIVE=false
-	LAST_SUCCESS_TIME="$(date '+%F %T')"
-	WIFI_RECONNECTS=$((WIFI_RECONNECTS + 1))
+	record_recovery_success wifi
 
 	save_state
 	restart_firefox
@@ -565,9 +599,7 @@ recover_network() {
     then
         log "Recovery successful."
 
-        RECOVERY_ACTIVE=false
-	LAST_SUCCESS_TIME="$(date '+%F %T')"
-	NM_RESTARTS=$((NM_RESTARTS + 1))
+	record_recovery_success networkmanager
 
 	save_state
 	restart_firefox
