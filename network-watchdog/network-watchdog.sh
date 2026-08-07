@@ -138,7 +138,9 @@ load_state() {
 save_state() {
 # Writes the current state to the save file
 
-    cat > "$STATE_FILE" << EOF
+tmp="${STATE_FILE}.tmp"
+
+    cat > "$tmp" << EOF
 VERSION=$VERSION
 
 RECOVERY_COUNT=$RECOVERY_COUNT
@@ -161,6 +163,8 @@ LAST_FAILURE_TIME="$LAST_FAILURE_TIME"
 
 LAST_SUCCESS_TIME="$LAST_SUCCESS_TIME"
 EOF
+
+mv "$tmp" "$STATE_FILE"
 
 }
 
