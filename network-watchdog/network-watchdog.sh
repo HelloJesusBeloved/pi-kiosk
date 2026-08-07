@@ -548,9 +548,102 @@ restart_networkmanager() {
 }
 
 
+###############################################################################
+# Reboot Management
+###############################################################################
+
+# Request a system reboot.
 request_reboot() {
 
-    log "[TEST] Would request reboot."
+    ###########################################################################
+    # Check Reboot Limit
+    ###########################################################################
+
+    if (( CONSECUTIVE_REBOOTS >= MAX_CONSECUTIVE_REBOOTS ))
+    then
+        log "Maximum consecutive reboot limit reached."
+        log "Manual intervention required."
+
+        return 1
+    fi
+
+
+    ###########################################################################
+    # Check Reboot Cooldown
+    ###########################################################################
+
+    if [[ "$WATCHDOG_REBOOT" == "true" ]]
+    then
+
+        local now
+        local last
+        local elapsed
+
+        now=$(date +%s)
+
+        if [[ -n "$WATCHDOG_REBOOT_TIME" ]]
+        then
+            last=$(date -d "$WATCHDOG_REBOOT_TIME" +%s 2>/dev/null)
+        else
+            last=0
+        fi
+
+
+        if [[ -z "$last" ]]
+        then
+            last=0
+        fi
+
+
+        elapsed=$(( now - last ))
+
+        if (( elapsed < REBOOT_COOLDOWN ))
+        then
+            log "Reboot cooldown active."
+            log "Elapsed  : ${elapsed}s"
+            log "Required : ${REBOOT_COOLDOWN}s"
+
+            return 1
+        fi
+
+    fi
+
+
+    ###########################################################################
+    # Record Reboot
+    ###########################################################################
+
+    REBOOTS=$((REBOOTS + 1))
+
+    CONSECUTIVE_REBOOTS=$((CONSECUTIVE_REBOOTS + 1))
+
+    WATCHDOG_REBOOT=true
+
+    WATCHDOG_REBOOT_TIME="$(date '+%F %T')"
+
+		RECOVERY_ACTIVE=false
+
+    save_state
+
+
+    ###########################################################################
+    # Log Reboot
+    ###########################################################################
+
+    log "============================================================"
+    log "Requesting system reboot."
+    log "Reboot Count       : ${REBOOTS}"
+    log "Consecutive Reboots: ${CONSECUTIVE_REBOOTS}"
+    log "============================================================"
+
+
+    ###########################################################################
+    # Reboot
+    ###########################################################################
+
+    systemctl reboot
+
+    return 0
 
 }
 
@@ -612,9 +705,6 @@ recover_network() {
     fi
 
     request_reboot
-
-    RECOVERY_ACTIVE=false
-    REBOOTS=$((REBOOTS + 1))
 
 }
 
