@@ -26,12 +26,20 @@ STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog.state"
 SHAREPOINT_URL="https://fairmounthomesorg.sharepoint.com/sites/TVAnnouncementsHC"
 
 
-# For: verify_failure()
+# For verify_failure()
 # Number of consecutive failed checks required before beginning recovery.
 FAILURE_CONFIRMATIONS=3
 
 # Seconds between confirmation attempts.
 FAILURE_CONFIRM_DELAY=10
+
+
+# For request_reboot()
+# Seconds after boot before watchdog is allowed to request another reboot.
+REBOOT_COOLDOWN=300
+
+# Maximum watchdog-initiated reboots before requiring manual intervention.
+MAX_CONSECUTIVE_REBOOTS=3
 
 
 
@@ -102,6 +110,12 @@ WIFI_RECONNECTS=0
 NM_RESTARTS=0
 
 REBOOTS=0
+
+CONSECUTIVE_REBOOTS=0
+
+WATCHDOG_REBOOT=false
+
+WATCHDOG_REBOOT_TIME=""
 
 LAST_FAILURE=""
 
