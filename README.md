@@ -16,19 +16,29 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 
 - **Location:** pi-kiosk/setup
 - **Purpose:** Setup the Raspberry Pi 5 with all the correct settings to make it into a kiosk. (Install the correct browser, turn off screen blanking, make the taskbar auto-hide, make it update and reboot nightly, that sort of thing)
+- **Logs:** 
+```shell
+journalctl -t network-watchdog
+```
 - **Status:** Not ready
 - <details>
     <summary><b>Full Explanation</b></summary>
     This script is basically the paper trail of the commands I used to change the settings on the Raspberry Pi 5 running default Raspberry Pi OS 64-bit to the correct ones that I needed for it to function the way I wanted it to to make it into a kiosk that displays a website. As I figured out what settings I needed to change to make that work, I used ChatGPT to discover what commands changed those settings, and added them to the list of this script so that I could run it on the rest of the Pi's I was going to setup, instead of running the commands and changing the settings individually on each. I made the-ultimate-raspberry-pi-announcement-tv-setup.sh (aka turpats) before I ever planned to make this repo (or knew how to use git for that matter lol), so currently it is not clone and play, but I plan to make it so.
-
+<br>
     Disclaimer: the-ultimate-raspberry-pi-announcement-tv-setup.sh was originally made for a different directory structure, and does not have all the updated scripts in it yet, so it is not ready to use out of the box. Additionally, it is not yet fully idempotent.
 </details>
 
 
 ### 2. firefox-kiosk.service
 
-Purpose:
-    Controls and Auto-Starts Firefox(via running/managing firefox-kisok.sh), including restarting it if closed or crashed.
+- **Location:** pi-kiosk/firefox-kiosk
+- **Purpose:** Controls and Auto-Starts Firefox (via running/managing firefox-kisok.sh), including logging, restarting it if closed or crashed, and making sure the display website is reachable before it launches.
+- **Logs:** 
+```shell
+journalctl -t firefox-kiosk
+```
+- **Status:** Usable
+(Still contains fail-safe reboot and network check logic that is now managed by network-watchdog, but should and has been working fine)
 
 
 ### 3. network-watchdog.service
@@ -50,21 +60,6 @@ systemctl --user stop firefox-kiosk.service
 Restart Firefox Autostart Service
 
 systemctl --user restart firefox-kiosk.service
-
-
-◽View Logs:
-
-Firefox
-
-journalctl -t firefox-kiosk
-
-Firefox live
-
-journalctl -t firefox-kiosk -f
-
-Watchdog
-
-journalctl -t network-watchdog
 
 
 ◽Files:
