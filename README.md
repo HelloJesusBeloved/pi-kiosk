@@ -25,12 +25,14 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 </details>
 
 
+<br>
 ### 2. firefox-kiosk.service
 
 Purpose:
     Controls and Auto-Starts Firefox(via running/managing firefox-kisok.sh), including restarting it if closed or crashed.
 
 
+<br>
 ### 3. network-watchdog.service
 
 Purpose:
