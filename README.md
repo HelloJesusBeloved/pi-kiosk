@@ -10,7 +10,7 @@ If you have any questions, suggestions, comments, literally just want to say hi(
 
 Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May work on other Pi's running Wayland, but not tested.
 
-  
+
 
 ### 1. the-ultimate-raspberry-pi-announcement-tv-setup.sh
 
@@ -23,19 +23,19 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 
     Disclaimer: the-ultimate-raspberry-pi-announcement-tv-setup.sh was originally made for a different directory structure, and does not have all the updated scripts in it yet, so it is not ready to use out of the box. Additionally, it is not yet fully idempotent.
 </details>
-  
+
 
 ### 2. firefox-kiosk.service
 
 Purpose:
     Controls and Auto-Starts Firefox(via running/managing firefox-kisok.sh), including restarting it if closed or crashed.
-  
+
 
 ### 3. network-watchdog.service
 
 Purpose:
     Keeps networking alive. Checks, and Repairs if Needed
-  
+
 
 ◽Useful Commands
 
