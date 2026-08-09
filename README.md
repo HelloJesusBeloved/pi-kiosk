@@ -1,7 +1,7 @@
 ## DISCLAIMER:
 Code written mostly by ChatGPT, while I decided the final logic of the code, and put together and tested every line. Currently in development. 
 
-## About
+## Introduction
 Hello my good Jesus beloved human bean who so happens to be reading this(: This is a collection of bash scripts and systemd user services that manage those scripts, that when put together and setup create what I like to call, The Ultimate Raspberry Pi Kiosk Setup 😎.
 
 This is not here because I necessarily want to share it, YET (not because I don't want to share it, I most certainly do, but because it is not finished yet), it is mainly here to have a cloud backup that I can also easily pull to my other Pi's.
@@ -11,6 +11,7 @@ If you have any questions, suggestions, comments, literally just want to say hi(
 Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May work on other Pi's running Wayland, but not tested.
 
 
+## About
 
 ### 1. the-ultimate-raspberry-pi-announcement-tv-setup.sh
 
