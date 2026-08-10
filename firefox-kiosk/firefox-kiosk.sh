@@ -87,11 +87,7 @@ check_startup_timeout() {
 
     if (( $(date +%s) - STARTUP_START_TIME >= MAX_STARTUP_WAIT ))
     then
-        notify ERROR "Startup timed out after ${MAX_STARTUP_WAIT} seconds while waiting for ${stage}. Rebooting."
-
-        log "Rebooting..."
-
-        systemctl reboot
+        notify ERROR "Startup timed out after ${MAX_STARTUP_WAIT} seconds while waiting for ${stage}."
     fi
 
 }
