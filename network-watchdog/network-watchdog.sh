@@ -100,6 +100,8 @@ initialize_state() {
         return
     fi
 
+    mkdir -p $HOME/.local/share/pi-kiosk
+
     cat > "$STATE_FILE" << EOF
 VERSION=$VERSION
 
