@@ -45,6 +45,6 @@ systemctl --user daemon-reload
 systemctl --user enable --now firefox-kiosk.service network-watchdog.service
 
 
-# Give the current user permission to restart NetworkManager so network-watchdog can
+echo "Please give the current user permission to restart NetworkManager so network-watchdog can"
 chmod +x $NM_PERMISSION_SCRIPT
-./$NM_PERMISSION_SCRIPT
+sudo $NM_PERMISSION_SCRIPT
