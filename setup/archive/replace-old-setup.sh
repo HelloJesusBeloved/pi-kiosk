@@ -26,11 +26,14 @@ fi
 
 
 # Install the new scripts/systemd services with normal 755 (read, write, and executable) permissions
+mkdir -p $BIN_DIR
+mkdir -p $SYSTEMD_USER_DIR
+
 install -m 755 $REPO_ROOT/network-watchdog/network-watchdog.sh $BIN_DIR
 install -m 755 $REPO_ROOT/firefox-kiosk/firefox-kiosk.sh $BIN_DIR
 
-install -m 655 $REPO_ROOT/network-watchdog/systemd/network-watchdog.service $SYSTEMD_USER_DIR
-install -m 655 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_USER_DIR
+install -m 644 $REPO_ROOT/network-watchdog/systemd/network-watchdog.service $SYSTEMD_USER_DIR
+install -m 644 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_USER_DIR
 
 
 # Start the service's
