@@ -5,13 +5,24 @@ set -e
 
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+
 BIN_DIR="$HOME/.local/bin"
 SYSTEMD_USER_DIR="$HOME/.config/systemd/user/"
 
+OLD_FILE="$HOME/.config/autostart/firefox.desktop"
+NEW_LOCATION="$HOME/Setup/Archive"
+
 
 # Move the old Autostart Desktop file to Achive folder
-mkdir -p $HOME/Setup/Archive
-mv $HOME/.config/autostart/firefox.desktop $HOME/Setup/Archive
+mkdir -p $NEW_LOCATION
+
+
+if [ -f "$OLD_FILE" ]; then
+    mv "$OLD_FILE" "$NEW_LOCATION"
+    echo "Moved $OLD_FILE"
+else
+    echo "$OLD_FILE not found; nothing to move"
+fi
 
 
 # Install the new scripts/systemd services with normal 755 (read, write, and executable) permissions
