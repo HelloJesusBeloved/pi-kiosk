@@ -1,7 +1,7 @@
 ◽THE OLD STEPS 
 
 (I mainly have these here because I want to save them somewhere)
-(This was for before I was using git lol)
+(This was for before I was using git, and when I had just one script (turpats) that created the other scripts that I needed, so I only had to transfer over one script from my work computer lol)
 
 1. Install magic-wormhole
 
