@@ -13,6 +13,7 @@ OLD_FILE="$HOME/.config/autostart/firefox.desktop"
 NEW_LOCATION="$HOME/Setup/Archive"
 
 NM_PERMISSION_SCRIPT="$REPO_ROOT/network-watchdog/setup/grant-user-NMrestart-permission.sh"
+SUDOERS_FILE="/etc/sudoers.d/pi-watchdog"
 
 
 # Move the old Autostart Desktop file to Achive folder
@@ -45,6 +46,13 @@ systemctl --user daemon-reload
 systemctl --user enable --now firefox-kiosk.service network-watchdog.service
 
 
-echo "Please give the current user permission to restart NetworkManager so network-watchdog can"
-chmod +x $NM_PERMISSION_SCRIPT
-sudo $NM_PERMISSION_SCRIPT
+# Ensure network-watchdog has permission to restart Network Manager
+if [ -f "$SUDOERS_FILE" ]; then
+    echo "Correct permissions already in place"
+else
+    echo "Please give the current user permission to restart NetworkManager so network-watchdog can"
+    chmod +x $NM_PERMISSION_SCRIPT
+    sudo $NM_PERMISSION_SCRIPT
+fi
+
+
