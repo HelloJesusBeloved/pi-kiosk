@@ -18,9 +18,12 @@ mv $HOME/.config/autostart/firefox.desktop $HOME/Setup/Archive
 install -m 755 $REPO_ROOT/network-watchdog/network-watchdog.sh $BIN_DIR
 install -m 755 $REPO_ROOT/firefox-kiosk/firefox-kiosk.sh $BIN_DIR
 
-install -m 755 $REPO_ROOT/network-watchdog/systemd/network-watchdog.service $SYSTEMD_USER_DIR
-install -m 755 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_USER_DIR
+install -m 655 $REPO_ROOT/network-watchdog/systemd/network-watchdog.service $SYSTEMD_USER_DIR
+install -m 655 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_USER_DIR
 
 
 # Start the service's
-systemctl --user start firefox-kiosk.service network-watchdog.service
+# Reload the systemd user daemon so it see thes service files that were just added
+systemctl --user daemon-reload
+
+systemctl --user enable --now firefox-kiosk.service network-watchdog.service
