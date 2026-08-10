@@ -12,6 +12,8 @@ SYSTEMD_USER_DIR="$HOME/.config/systemd/user/"
 OLD_FILE="$HOME/.config/autostart/firefox.desktop"
 NEW_LOCATION="$HOME/Setup/Archive"
 
+NM_PERMISSION_SCRIPT="$REPO_ROOT/network-watchdog/setup/grant-user-NMrestart-permission.sh"
+
 
 # Move the old Autostart Desktop file to Achive folder
 mkdir -p $NEW_LOCATION
@@ -41,3 +43,8 @@ install -m 644 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_U
 systemctl --user daemon-reload
 
 systemctl --user enable --now firefox-kiosk.service network-watchdog.service
+
+
+# Give the current user permission to restart NetworkManager so network-watchdog can
+chmod +x $NM_PERMISSION_SCRIPT
+./$NM_PERMISSION_SCRIPT
