@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# Firefox Kiosk Controller
-# Version: 2.0
+# Firefox Kiosk Controller 
+# Version: 3.0
 #
 # Responsibilities:
 #   • Wait until SharePoint is reachable
@@ -13,6 +13,7 @@
 # Responsibilities NOT handled here:
 #   • Starting at login (systemd)
 #   • Network troubleshooting/recovery (network-watchdog)
+#   • Notifications (network-watchdog)
 #   • Automatic controller restart (systemd)
 ###############################################################################
 
@@ -32,42 +33,14 @@ FIREFOX="firefox-esr"
 # Extra wait after SharePoint becomes reachable
 NETWORK_SETTLE_TIME=3
 
-# Future NTFY settings
-ENABLE_NTFY=false
-#NTFY_TOPIC="company-pi"
-#NTFY_SERVER="https://ntfy.sh"
-
 
 ###############################################################################
 # Logging
 ###############################################################################
 
 log() {
+
     echo "[$(date '+%F %T')] $*"
-}
-
-###############################################################################
-# Notifications
-###############################################################################
-
-notify() {
-
-    local level="$1"
-    shift
-
-    local message="$*"
-
-    # Always log locally
-    log "[$level] $message"
-
-    # Future:
-    # Send ntfy notification here.
-    #
-    # Example:
-    #
-    # if [[ "$ENABLE_NTFY" == "true" ]]; then
-    #     curl ...
-    # fi
 
 }
 
@@ -94,7 +67,7 @@ wait_for_sharepoint() {
 
         if [[ "$http_code" != "000" ]]
         then
-            notify INFO "SharePoint responded with HTTP ${http_code}."
+            log "SharePoint responded with HTTP ${http_code}."
 
             return 0
         fi
@@ -145,7 +118,7 @@ main() {
             exit_code=$?
         fi
 
-        notify WARNING "Firefox exited (code ${exit_code})."
+        log "Firefox exited (code ${exit_code})."
 
         log "Restarting Firefox in 10 seconds..."
 
@@ -161,3 +134,4 @@ main() {
 ###############################################################################
 
 main
+
