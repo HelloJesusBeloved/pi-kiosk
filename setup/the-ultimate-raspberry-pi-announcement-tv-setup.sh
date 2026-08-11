@@ -1,20 +1,23 @@
 #!/bin/bash
 
-# THE BASH SCRIPT V2 (Everything is re-runable, execpt the cron job, the aliases, and the main_firefox_profile will be untar-ed again)
+# THE Pi KIOSK BASH SETUP SCRIPT
+# Version 3.0
+#
+# Meant to be run on a freshly set up Raspberry Pi 5 running Raspberry Pi OS (64-bit)
 
-#Remove Packages
+#Remove Chrome and FireFox
 sudo apt -y purge chromium firefox && sudo apt -y autoremove
 
 #Upgrade Packages
 sudo apt -y update && sudo apt -y full-upgrade
 
-#Enable Desktop Auto Boot 
+#Install Packages
+sudo apt -y install firefox-esr
+
+#Enable Desktop Auto Boot/Login (without a password) 
 sudo raspi-config nonint do_boot_behaviour B4
 
-#Install Packages
-sudo apt -y install firefox-esr vim
-
-#Turn Off Screen Blanking
+#Turn Off Screen Auto Blanking
 sudo raspi-config nonint do_blanking 1
 
 #Autohide the Taskbar
