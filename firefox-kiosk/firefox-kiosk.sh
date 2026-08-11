@@ -2,6 +2,7 @@
 
 ###############################################################################
 # Firefox Kiosk Controller
+# Version: 2.0
 #
 # Responsibilities:
 #   • Wait until SharePoint is reachable
