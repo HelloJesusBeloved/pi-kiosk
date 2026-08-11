@@ -16,7 +16,7 @@ ExecStart=%h/.local/bin/firefox-kiosk.sh
 
 # If the controller exits unexpectedly,
 # restart it after a short delay.
-Restart=on-failure
+Restart=always
 RestartSec=10
 
 # Write stdout/stderr to the journal
