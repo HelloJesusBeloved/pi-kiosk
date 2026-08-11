@@ -40,11 +40,31 @@ install -m 644 $REPO_ROOT/network-watchdog/systemd/network-watchdog.service $SYS
 install -m 644 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_USER_DIR
 
 
-# Start the service's
-# Reload the systemd user daemon so it see thes service files that were just added
+# Start services and Reload the systemd user daemon so it sees service files that were just added
+
 systemctl --user daemon-reload
 
-systemctl --user enable --now firefox-kiosk.service network-watchdog.service
+
+for service in firefox-kiosk.service network-watchdog.service
+do
+
+    if systemctl --user is-enabled --quiet "$service" &&
+       systemctl --user is-active --quiet "$service"
+    then
+
+        echo "$service is already enabled and running. Restarting..."
+
+        systemctl --user restart "$service"
+
+    else
+
+        echo "$service is not enabled and running. Enabling and starting..."
+
+        systemctl --user enable --now "$service"
+
+    fi
+
+done
 
 
 # Ensure network-watchdog has permission to restart Network Manager
