@@ -47,10 +47,18 @@ echo "0 2 * * * root apt update && apt full-upgrade -y && reboot
 @reboot root /usr/sbin/iw dev wlan0 set power_save off" | sudo tee -a /etc/crontab > /dev/null
 
 #Add Aliases
-cat > $HOME/.bashrc << EOF
-alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'
-alias mousee='$REPO_ROOT/hide-cursor/cursor-toggle.sh && exit'
-EOF
+ALIASES=(
+    "alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'"
+    "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
+)
+
+for alias in "${ALIASES[@]}"
+do
+    if ! grep -Fxq "$alias" "$HOME/.bashrc"
+    then
+        echo "$alias" >> "$HOME/.bashrc"
+    fi
+done
 
 #Make the Desktop Config File and Hide The Wastebin and Set Fairmount Wallpaper
 mkdir -p ~/.config/pcmanfm/default
