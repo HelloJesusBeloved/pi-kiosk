@@ -22,28 +22,29 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
     This script is basically the paper trail of the commands I used to change the settings on the Raspberry Pi 5 running default Raspberry Pi OS 64-bit to the correct ones that I needed for it to function the way I wanted it to to make it into a kiosk that displays a website. As I figured out what settings I needed to change to make that work, I used ChatGPT to discover what commands changed those settings, and added them to the list of this script so that I could run it on the rest of the Pi's I was going to setup, instead of running the commands and changing the settings individually on each. I made the-ultimate-raspberry-pi-announcement-tv-setup.sh (aka turpats) before I ever planned to make this repo (or knew how to use git for that matter lol), so currently it is not clone and play, but I plan to make it so.
 </details>
 
-- **Logs:** 
-```shell
-journalctl -t network-watchdog
-```
-- **Status:** Not ready
+- **Status:** Not Ready
 - **Disclaimer:** the-ultimate-raspberry-pi-announcement-tv-setup.sh has not been modified to work with this repositories directory structure, so it is not ready to use out of the box YET. Additionally, it is not yet fully idempotent.
 
 ### 2. firefox-kiosk.service
 
-- **Location:** pi-kiosk/firefox-kiosk
 - **Purpose:** Controls and Auto-Starts Firefox (via running/managing firefox-kisok.sh), including logging, restarting it if closed or crashed, and making sure the display website is reachable before it launches.
 - **Logs:** 
+(add -f for live)
 ```shell
 journalctl -t firefox-kiosk
 ```
-- **Status:** Usable (Still contains fail-safe reboot and network check logic that is now managed by network-watchdog, but should and has been working fine)
+- **Status:** Ready
 
 
 ### 3. network-watchdog.service
 
-Purpose:
-    Keeps networking alive. Checks, and Repairs if Needed
+- **Purpose:** Keep networking alive. Periodically checks connection, if disconnected verifys disconnection, if verified goes through 3 automatic troubleshooting steps: WiFi disconnect/reconnect, Network Manger restart, and finally full system reboot.
+- **Logs:** 
+(add -f for live)
+```shell
+journalctl -t network-watchdog
+```
+- **Status:** Ready
 
 
 ◽Useful Commands
