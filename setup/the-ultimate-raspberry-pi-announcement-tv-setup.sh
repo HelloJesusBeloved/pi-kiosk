@@ -5,13 +5,29 @@
 #
 # Meant to be run on a freshly set up Raspberry Pi 5 running Raspberry Pi OS (64-bit)
 
+#Set Variables
+#
+# Set how many directories below the repository root this script is located.
+REPO_ROOT_DEPTH=1
+
+# Find the absolute path of the directory containing this script.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Start at the script directory, then walk upward to the repository root.
+REPO_ROOT="$SCRIPT_DIR"
+
+for ((i = 0; i < REPO_ROOT_DEPTH; i++))
+do
+    REPO_ROOT="$(dirname "$REPO_ROOT")"
+done
+
 #Remove Chrome and FireFox
 sudo apt -y purge chromium firefox && sudo apt -y autoremove
 
 #Upgrade Packages
 sudo apt -y update && sudo apt -y full-upgrade
 
-#Install Packages
+#Install Firefox ESR
 sudo apt -y install firefox-esr
 
 #Enable Desktop Auto Boot/Login (without a password) 
@@ -21,22 +37,20 @@ sudo raspi-config nonint do_boot_behaviour B4
 sudo raspi-config nonint do_blanking 1
 
 #Autohide the Taskbar
+#Note: wf-panel-pi.ini simply needs to be created and contain "autohide=true"
 echo "autohide=true" > $HOME/.config/wf-panel-pi/wf-panel-pi.ini
 
 #Add Cron Jobs
 #1. Update and Reboot Nightly
-#2. Keep Power Save Off
+#2. Keep Power Save Off (Helps Wi-Fi connection stability)
 echo "0 2 * * * root apt update && apt full-upgrade -y && reboot
 @reboot root /usr/sbin/iw dev wlan0 set power_save off" | sudo tee -a /etc/crontab > /dev/null
 
 #Add Aliases
-echo "
-alias temp='vcgencmd measure_temp'
-
-alias osversion='cat /etc/os-release'
-
-alias mouse='$HOME/Setup/cursor-toggle.sh'
-alias mousee='$HOME/Setup/cursor-toggle.sh && exit'" >> $HOME/.bashrc
+cat > $HOME/.bashrc << EOF
+alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'
+alias mousee='$REPO_ROOT/hide-cursor/cursor-toggle.sh && exit'
+EOF
 
 #Make the Desktop Config File and Hide The Wastebin and Set Fairmount Wallpaper
 mkdir -p ~/.config/pcmanfm/default
@@ -45,16 +59,6 @@ if [ ! -f ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf ]; then
 fi
 sed -i 's|show_trash=1|show_trash=0|' $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 sed -i "s|wallpaper=/usr/share/rpd-wallpaper.*|wallpaper=$HOME/Setup/Fairmount_Logo.png|" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
-
-#Untar The FireFox Profile
-tar -xvf main_firefox_profile.tar.gz
-
-#Move the Tar File Into the Setup Folder
-mv $HOME/PiSlides_Setup.tar.gz $HOME/Setup
-
-#Doesn't appear to make the prompt to set Firefox as the default go away
-#Set FireFox ESR As The Default Browser
-sudo update-alternatives --set x-www-browser /usr/bin/firefox-esr
 
 #Make journalctl logs permanent
 sudo mkdir -p /var/log/journal
