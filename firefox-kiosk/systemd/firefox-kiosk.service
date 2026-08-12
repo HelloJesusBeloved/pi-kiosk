@@ -1,7 +1,5 @@
 [Unit]
 Description=Firefox Kiosk Controller
-After=graphical-session.target
-Wants=graphical-session.target
 
 [Service]
 Type=simple
@@ -28,4 +26,4 @@ StandardError=journal
 SyslogIdentifier=firefox-kiosk
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
