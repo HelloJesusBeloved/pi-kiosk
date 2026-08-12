@@ -39,6 +39,8 @@ install -m 755 $REPO_ROOT/firefox-kiosk/firefox-kiosk.sh $BIN_DIR
 install -m 644 $REPO_ROOT/network-watchdog/systemd/network-watchdog.service $SYSTEMD_USER_DIR
 install -m 644 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_USER_DIR
 
+echo "Installed firefox-kiosk/network-watchdog.sh and .service"
+
 
 # Start services and Reload the systemd user daemon so it sees service files that were just added
 
