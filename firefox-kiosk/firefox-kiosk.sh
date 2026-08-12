@@ -89,7 +89,16 @@ launch_firefox() {
 
     log "Launching Firefox..."
 
-    "$FIREFOX"
+    if "$FIREFOX"
+    then
+        log "Firefox exited normally (exit code 0)."
+        return 0
+    else
+        local exit_code=$?
+
+        log "Firefox exited with error (exit code ${exit_code})."
+        return "$exit_code"
+    fi
 
 }
 
@@ -110,20 +119,13 @@ main() {
 
     while true
     do
-
-        if launch_firefox
-        then
-            exit_code=0
-        else
-            exit_code=$?
-        fi
-
-        log "Firefox exited (code ${exit_code})."
-
+    
+        launch_firefox || true
+    
         log "Restarting Firefox in 10 seconds..."
-
+    
         sleep 10
-
+    
     done
 
 }
@@ -134,4 +136,3 @@ main() {
 ###############################################################################
 
 main
-
