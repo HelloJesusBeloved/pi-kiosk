@@ -75,26 +75,26 @@ journalctl -t firefox-kiosk
           │                    EVERY 60 SECONDS                       │
           │                                                           │
           ▼                                                           │
- collect_network_state()                                              │
+    collect_network_state()                                           │
           │                                                           │
           ▼                                                           │
- build_network_state()                                                │
+    build_network_state()                                             │
           │                                                           │
           ▼                                                           │
- evaluate_network_health()                                            │
+    evaluate_network_health()                                         │
           │                                                           │
           ▼                                                           │
- classify_network_incident()                                          │
+    classify_network_incident()                                       │
           │                                                           │
           ▼                                                           │
- network_state_changed()?                                             │
-       │             │                                                │
-      YES            NO                                               │
-       │             │                                                │
-       ▼             │                                                │
- log_network_state() │                                                │
-       │             │                                                │
-       └──────┬──────┘                                                │
+    network_state_changed()?                                          │
+          │             │                                             │
+         YES            NO                                            │
+          │             │                                             │
+          ▼             │                                             │
+    log_network_state() │                                             │
+       │                │                                             │
+       └──────┬─────────┘                                             │
               │                                                       │
               ▼                                                       │
        recover_network()                                              │
