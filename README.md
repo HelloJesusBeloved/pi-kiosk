@@ -41,6 +41,177 @@ journalctl -t firefox-kiosk
 ### 3. network-watchdog.service
 
 - **Purpose:** Keep networking alive. Periodically checks connection, if disconnected verifys disconnection, if verified goes through 3 automatic troubleshooting steps: WiFi disconnect/reconnect, Network Manger restart, and finally full system reboot.
+- <details>
+    <summary><b>Flow Diagram</b></summary>
+                         ┌─────────────────────────┐
+                         │     Program Starts      │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                            initialize_state()
+                                      │
+                                      ▼
+                               load_state()
+                                      │
+                                      ▼
+                              log_startup()
+                                      │
+                                      ▼
+                         collect_network_state()
+                                      │
+                                      ▼
+                         build_network_state()
+                                      │
+                                      ▼
+                            log_network_state                               
+                                      │
+                                      ▼
+                              main_loop()
+                                      │
+          ┌───────────────────────────┴───────────────────────────────┐
+          │                                                           │
+          │                    EVERY 60 SECONDS                       │
+          │                                                           │
+          ▼                                                           │
+ collect_network_state()                                              │
+          │                                                           │
+          ▼                                                           │
+ build_network_state()                                                │
+          │                                                           │
+          ▼                                                           │
+ evaluate_network_health()                                            │
+          │                                                           │
+          ▼                                                           │
+ classify_network_incident()                                          │
+          │                                                           │
+          ▼                                                           │
+ network_state_changed()?                                             │
+       │             │                                                │
+      YES            NO                                               │
+       │             │                                                │
+       ▼             │                                                │
+ log_network_state() │                                                │
+       │             │                                                │
+       └──────┬──────┘                                                │
+              │                                                       │
+              ▼                                                       │
+       recover_network()                                              │
+              │                                                       │
+              ▼                                                       │
+       Network HEALTHY?                                               │
+          │          │                                                │
+         YES         NO                                               │
+          │          │                                                │
+          │          ▼                                                │
+          │   Recovery already active?                                │
+          │          │          │                                     │
+          │         YES         NO                                    │
+          │          │          │                                     │
+          │          │          ▼                                     │
+          │          │   RECOVERY_ACTIVE=true                         │
+          │          │          │                                     │
+          │          │          ▼                                     │
+          │          │     verify_failure()                           │
+          │          │          │                                     │
+          │          │          ▼                                     │
+          │          │   ┌────────────────────┐                       │
+          │          │   │ Recheck network    │                       │
+          │          │   │ up to N times      │                       │
+          │          │   │ with delay between │                       │
+          │          │   │ each confirmation  │                       │
+          │          │   └──────────┬─────────┘                       │
+          │          │              │                                 │
+          │          │       ┌──────┴──────┐                          │
+          │          │       │             │                          │
+          │          │    HEALTHY      STILL BAD                      │
+          │          │       │             │                          │
+          │          │       ▼             ▼                          │
+          │          │    Cancel       Confirm                        │
+          │          │    recovery      failure                       │
+          │          │       │             │                          │
+          │          │       │             ▼                          │
+          │          │       │      Increment recovery                │
+          │          │       │         counters                       │
+          │          │       │             │                          │
+          │          │       │             ▼                          │
+          │          │       │    attempt_wifi_reconnect()            │
+          │          │       │             │                          │
+          │          │       │        ┌────┴────┐                     │
+          │          │       │       YES       NO                     │
+          │          │       │        │         │                     │
+          │          │       │        ▼         ▼                     │
+          │          │       │     SUCCESS  restart_networkmanager()  │
+          │          │       │        │         │                     │
+          │          │       │        │    ┌────┴────┐                │
+          │          │       │        │   YES       NO                │
+          │          │       │        │    │         │                │
+          │          │       │        │    ▼         ▼                │
+          │          │       │        │ SUCCESS  request_reboot()     │
+          │          │       │        │    │         │                │
+          │          │       │        │    │         ▼                │
+          │          │       │        │    │  Consecutive reboots     │
+          │          │       │        │    │       >= 3?              │
+          │          │       │        │    │     │       │            │
+          │          │       │        │    │    YES      NO           │
+          │          │       │        │    │     │       │            │
+          │          │       │        │    │     ▼       ▼            │
+          │          │       │        │    │   DENY    Watchdog       │
+          │          │       │        │    │   reboot  reboot flag    │
+          │          │       │        │    │   Manual    == true?     │
+          │          │       │        │    │   fix      │       │     │
+          │          │       │        │    │           YES      NO    │
+          │          │       │        │    │            │       │     │
+          │          │       │        │    │            ▼       │     │
+          │          │       │        │    │       Calculate    │     │
+          │          │       │        │    │       elapsed time │     │
+          │          │       │        │    │       since last   │     │
+          │          │       │        │    │       watchdog     │     │
+          │          │       │        │    │       reboot       │     │
+          │          │       │        │    │            │       │     │
+          │          │       │        │    │       < 5 minutes? │     │
+          │          │       │        │    │          │     │   │     │
+          │          │       │        │    │         YES    NO  │     │
+          │          │       │        │    │          │     │   │     │
+          │          │       │        │    │          ▼     │   │     │
+          │          │       │        │    │        DENY    │   │     │
+          │          │       │        │    │        reboot  │   │     │
+          │          │       │        │    │                │   │     │
+          │          │       │        │    │                └───┘     │
+          │          │       │        │    │                  │       │
+          │          │       │        │    └──────────────────┤       │
+          │          │       │        │                       │       │
+          │          │       │        │                       ▼       │
+          │          │       │        │                Record reboot  │
+          │          │       │        │                       │       │
+          │          │       │        │                       ▼       │
+          │          │       │        │                Save state     │
+          │          │       │        │                  to disk      │
+          │          │       │        │                       │       │
+          │          │       │        │                       ▼       │
+          │          │       │        │               systemctl reboot│
+          │          │       │        │                               │
+          │          │       │        │                               │
+          │          │       │        └───────────────────────────────┘
+          │          │       │
+          │          │       └──────────────────────────────┐
+          │          │                                      │
+          │          └──────────────────────────────────────┤
+          │                                                 │
+          │                                                 ▼
+          │                                      restart_firefox()
+          │                                                 │
+          │                                                 ▼
+          │                                          Recovery ends
+          │
+          ▼
+        sleep
+          │
+          ▼
+      60 seconds
+          │
+          └──────────────────────────────────────────► main loop
+</details>
+
 - **Logs:** 
 (add -f for live)
 ```shell
