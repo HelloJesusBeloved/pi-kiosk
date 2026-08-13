@@ -43,7 +43,8 @@ journalctl -t firefox-kiosk
 - **Purpose:** Keep networking alive. Periodically checks connection, if disconnected verifys disconnection, if verified goes through 3 automatic troubleshooting steps: WiFi disconnect/reconnect, Network Manger restart, and finally full system reboot.
 - <details>
     <summary><b>Flow Diagram</b></summary>
-```bash
+
+<pre>
                          ┌─────────────────────────┐
                          │     Program Starts      │
                          └────────────┬────────────┘
@@ -211,7 +212,8 @@ journalctl -t firefox-kiosk
       60 seconds
           │
           └──────────────────────────────────────────► main loop
-```
+</pre>
+
 </details>
 
 - **Logs:** 
