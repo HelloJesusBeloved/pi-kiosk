@@ -33,6 +33,8 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 ```shell
 journalctl -t firefox-kiosk
 ```
+- **Control:** 
+`systemctl --user start/stop/restart firefox-kiosk.service`
 - **Status:** Ready
 
 
@@ -44,55 +46,20 @@ journalctl -t firefox-kiosk
 ```shell
 journalctl -t network-watchdog
 ```
+- **Control:** 
+`systemctl --user start/stop/restart network-watchdog.service`
+```
 - **Status:** Ready
 
+Ending File Structure:
 
-◽Useful Commands
-
-Start Firefox Autostart Service
-
-systemctl --user start firefox-kiosk.service
-
-Stop Firefox Autostart Service
-
-systemctl --user stop firefox-kiosk.service
-
-Restart Firefox Autostart Service
-
-systemctl --user restart firefox-kiosk.service
-
-
-◽Files:
-
-~/.config/systemd/user/
-
+`$HOME/.config/systemd/user/
 firefox-kiosk.service
-network-watchdog.service
+network-watchdog.service`
 
-~/.local/bin/
-
+`$HOME/.local/bin/
 firefox-kiosk.sh
-network-watchdog.sh
+network-watchdog.sh`
 
-~/.local/share/pi-kiosk/
-
-network-watchdog.state
-
-
-◽Troubleshooting:
-
-If Firefox says
-
-Error:
-no DISPLAY environment variable specified
-
-Check:
-
-DISPLAY
-WAYLAND_DISPLAY
-
-The service should include
-
-Environment=DISPLAY=:0
-Environment=WAYLAND_DISPLAY=wayland-0
-Environment=XDG_RUNTIME_DIR=/run/user/1000
+`#HOME/.local/share/pi-kiosk/
+network-watchdog.state`
