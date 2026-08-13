@@ -41,8 +41,8 @@ journalctl -t firefox-kiosk
 ### 3. network-watchdog.service
 
 - **Purpose:** Keep networking alive. Periodically checks connection, if disconnected verifys disconnection, if verified goes through 3 automatic troubleshooting steps: WiFi disconnect/reconnect, Network Manger restart, and finally full system reboot.
-- <details>
-    <summary><b>Flow Diagram</b></summary>
+<details>
+<summary><b>Flow Diagram</b></summary>
 
 <pre>
                          ┌─────────────────────────┐
