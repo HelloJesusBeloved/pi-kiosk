@@ -42,34 +42,70 @@ install -m 644 $REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service $SYSTEMD_U
 echo "Installed firefox-kiosk/network-watchdog.sh and .service"
 
 
-# Start services and Reload the systemd user daemon so it sees service files that were just added
+###############################################################################
+# Disable/Enable and Start or Restart services
+# Reload the systemd user daemon
+###############################################################################
 
 systemctl --user daemon-reload
 
 
-for service in firefox-kiosk.service network-watchdog.service
-do
+    for service in \
+        firefox-kiosk.service \
+        network-watchdog.service
+    do
 
-    if systemctl --user is-enabled --quiet "$service" &&
-       systemctl --user is-active --quiet "$service"
+    echo "Configuring $service..."
+
+    # Rebuild the enablement symlinks.
+    #
+    # This ensures that if the service's WantedBy= setting changed,
+    # any old enablement is removed before the new one is created.
+
+    systemctl --user disable "$service" 2>/dev/null || true
+
+    if systemctl --user enable "$service"
     then
+        echo "$service enabled successfully."
+    else
+        echo "ERROR: Failed to enable $service."
+        exit 1
+    fi
 
-        echo "$service is already enabled and running. Restarting..."
 
-        systemctl --user restart "$service"
+    # Start the service, or restart it if it is already running.
+
+    if systemctl --user is-active --quiet "$service"
+    then
+        echo "$service is running. Restarting..."
+
+        if systemctl --user restart "$service"
+        then
+            echo "$service restarted successfully."
+        else
+            echo "ERROR: Failed to restart $service."
+            exit 1
+        fi
 
     else
+        echo "$service is not running. Starting..."
 
-        echo "$service is not enabled and running. Enabling and starting..."
-
-        systemctl --user enable --now "$service"
-
+        if systemctl --user start "$service"
+        then
+            echo "$service started successfully."
+        else
+            echo "ERROR: Failed to start $service."
+            exit 1
+        fi
     fi
 
 done
 
 
+###############################################################################
 # Ensure network-watchdog has permission to restart Network Manager
+###############################################################################
+
 if [ -f "$SUDOERS_FILE" ]; then
     echo "Correct permissions already in place"
 else
