@@ -48,7 +48,6 @@ journalctl -t network-watchdog
 ```
 - **Control:** 
 `systemctl --user start/stop/restart network-watchdog.service`
-```
 - **Status:** Ready
 
 Ending File Structure:
