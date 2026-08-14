@@ -35,6 +35,11 @@ ALIASES=(
     "alias mousee='$REPO_ROOT/hide-cursor/cursor-toggle.sh && exit'"
 )
 
+ALIASES_TO_REMOVE=(
+    "alias mouse='$HOME/Setup/cursor-toggle.sh'"
+    "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
+)
+
 WALLPAPER="$(find "$REPO_ROOT/assets/wallpaper" -maxdepth 1 -type f -print -quit)"
 
 
@@ -76,6 +81,12 @@ do
     then
         echo "$alias" >> "$HOME/.bashrc"
     fi
+done
+
+#Remove my old alias's (does nothing if you don't have them)
+for alias in "${ALIASES_TO_REMOVE[@]}"
+do
+    sed -i "\|^${alias}$|d" "$HOME/.bashrc"
 done
 
 #Make the Desktop Config File and Hide The Wastebin and Set Fairmount Wallpaper
