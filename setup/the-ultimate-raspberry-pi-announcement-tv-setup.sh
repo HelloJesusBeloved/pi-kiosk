@@ -42,6 +42,12 @@ ALIASES_TO_REMOVE=(
 
 WALLPAPER="$(find "$REPO_ROOT/assets/wallpaper" -maxdepth 1 -type f -print -quit)"
 
+SCRIPTS_TO_MAKE_EXECUTABLE=(
+    "$REPO_ROOT/hide-cursor/cursor-hide.sh"
+    "$REPO_ROOT/hide-cursor/cursor-show.sh"
+    "$REPO_ROOT/hide-cursor/cursor-toggle.sh"
+)
+
 
 #Remove Chrome and FireFox
 sudo apt -y purge chromium firefox 
@@ -87,6 +93,12 @@ done
 for alias in "${ALIASES_TO_REMOVE[@]}"
 do
     sed -i "\|^${alias}$|d" "$HOME/.bashrc"
+done
+
+#Make necessary scripts executable
+for script in "${SCRIPTS_TO_MAKE_EXECUTABLE[@]}"
+do
+    chmod +x "$script"
 done
 
 #Make the Desktop Config File and Hide The Wastebin and Set Fairmount Wallpaper
