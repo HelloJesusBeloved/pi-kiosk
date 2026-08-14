@@ -43,8 +43,18 @@ echo "autohide=true" > $HOME/.config/wf-panel-pi/wf-panel-pi.ini
 #Add Cron Jobs
 #1. Update and Reboot Nightly
 #2. Keep Power Save Off (Helps Wi-Fi connection stability)
-echo "0 2 * * * root apt update && apt full-upgrade -y && reboot
-@reboot root /usr/sbin/iw dev wlan0 set power_save off" | sudo tee -a /etc/crontab > /dev/null
+CRON_JOBS=(
+    "0 2 * * * root apt update && apt full-upgrade -y && reboot"
+    "@reboot root /usr/sbin/iw dev wlan0 set power_save off"
+)
+
+for job in "${CRON_JOBS[@]}"
+do
+    if ! grep -Fxq "$job" /etc/crontab
+    then
+        echo "$job" | sudo tee -a /etc/crontab > /dev/null
+    fi
+done
 
 #Add Aliases
 ALIASES=(
