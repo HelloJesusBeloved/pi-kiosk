@@ -40,7 +40,9 @@ ALIASES_TO_REMOVE=(
     "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
 )
 
-WALLPAPER="$(find "$REPO_ROOT/assets/wallpaper" -maxdepth 1 -type f -print -quit)"
+#The image in the $WALLPAPER directory will be set as the Raspberry Pi's desktop wallpaper
+WALLPAPER="$REPO_ROOT/assets/wallpaper"
+SET_WALLPAPER="$(find "$WALLPAPER" -maxdepth 1 -type f -print -quit)"
 
 SCRIPTS_TO_MAKE_EXECUTABLE=(
     "$REPO_ROOT/hide-cursor/cursor-hide.sh"
@@ -107,7 +109,7 @@ if [ ! -f ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf ]; then
     cp /etc/xdg/pcmanfm/default/desktop-items-0.conf ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf 2>/dev/null || true
 fi
 sed -i 's|show_trash=1|show_trash=0|' $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
-sed -i "s|wallpaper=.*|wallpaper=$WALLPAPER|" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
+sed -i "s|wallpaper=.*|wallpaper=$SET_WALLPAPER|" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 
 #Ask To Reboot
 echo "
