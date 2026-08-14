@@ -5,8 +5,9 @@
 #
 # Meant to be run on a freshly set up Raspberry Pi 5 running Raspberry Pi OS (64-bit)
 
-#Set Variables
-#
+
+#Set REPO_ROOT Variable
+
 # Set how many directories below the repository root this script is located.
 REPO_ROOT_DEPTH=1
 
@@ -20,6 +21,20 @@ for ((i = 0; i < REPO_ROOT_DEPTH; i++))
 do
     REPO_ROOT="$(dirname "$REPO_ROOT")"
 done
+
+
+#Configuration Variables:
+
+CRON_JOBS=(
+    "0 2 * * * root apt update && apt full-upgrade -y && reboot"
+    "@reboot root /usr/sbin/iw dev wlan0 set power_save off"
+)
+
+ALIASES=(
+    "alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'"
+    "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
+)
+
 
 #Remove Chrome and FireFox
 sudo apt -y purge chromium firefox && sudo apt -y autoremove
@@ -43,10 +58,6 @@ echo "autohide=true" > $HOME/.config/wf-panel-pi/wf-panel-pi.ini
 #Add Cron Jobs
 #1. Update and Reboot Nightly
 #2. Keep Power Save Off (Helps Wi-Fi connection stability)
-CRON_JOBS=(
-    "0 2 * * * root apt update && apt full-upgrade -y && reboot"
-    "@reboot root /usr/sbin/iw dev wlan0 set power_save off"
-)
 
 for job in "${CRON_JOBS[@]}"
 do
@@ -57,11 +68,6 @@ do
 done
 
 #Add Aliases
-ALIASES=(
-    "alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'"
-    "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
-)
-
 for alias in "${ALIASES[@]}"
 do
     if ! grep -Fxq "$alias" "$HOME/.bashrc"
