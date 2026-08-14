@@ -84,7 +84,7 @@ if [ ! -f ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf ]; then
     cp /etc/xdg/pcmanfm/default/desktop-items-0.conf ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf 2>/dev/null || true
 fi
 sed -i 's|show_trash=1|show_trash=0|' $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
-sed -i "s|wallpaper=/usr/share/rpd-wallpaper.*|wallpaper=$WALLPAPER" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
+sed -i "s|wallpaper=|wallpaper=$WALLPAPER" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 
 #Ask To Reboot
 echo "
