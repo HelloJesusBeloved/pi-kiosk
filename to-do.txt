@@ -1,0 +1,7 @@
+Make turpats remove my old alias's
+
+Figure out how to actually make journalctl logs permanent and add it to turpats
+
+Add hide-cursor about section
+
+Add explanation about how I am using this whole setup with sharepoint etc.
