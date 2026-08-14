@@ -39,13 +39,13 @@ WALLPAPER="$REPO_ROOT/assets/wallpaper/"*
 
 
 #Remove Chrome and FireFox
-sudo apt -y purge chromium firefox && sudo apt -y autoremove
+sudo apt -y purge chromium firefox 
 
 #Upgrade Packages
 sudo apt -y update && sudo apt -y full-upgrade
 
 #Install Firefox ESR
-sudo apt -y install firefox-esr
+sudo apt -y install firefox-esr && sudo apt -y autoremove
 
 #Enable Desktop Auto Boot/Login (without a password) 
 sudo raspi-config nonint do_boot_behaviour B4
@@ -85,18 +85,6 @@ if [ ! -f ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf ]; then
 fi
 sed -i 's|show_trash=1|show_trash=0|' $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 sed -i "s|wallpaper=/usr/share/rpd-wallpaper.*|wallpaper=$WALLPAPER" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
-
-#Make journalctl logs permanent
-sudo mkdir -p /var/log/journal
-sudo sed -i 's/#Storage=auto/Storage=persistent/' /etc/systemd/journald.conf
-sudo sed -i 's/#SystemKeepFree=/#SystemKeepFree=4G/' /etc/systemd/journald.conf
-#Disable the Raspberry Pi override
-sudo mv /usr/lib/systemd/journald.conf.d/40-rpi-volatile-storage.conf /usr/lib/systemd/journald.conf.d/40-rpi-volatile-storage.conf.disabled
-sudo chown root:systemd-journal /var/log/journal
-sudo chmod 2755 /var/log/journal
-sudo systemd-tmpfiles --create --prefix /var/log/journal
-sudo systemctl restart systemd-journald
-sudo journalctl --flush
 
 #Ask To Reboot
 echo "
