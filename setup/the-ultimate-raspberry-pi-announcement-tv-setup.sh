@@ -32,7 +32,7 @@ CRON_JOBS=(
 
 ALIASES=(
     "alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'"
-    "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
+    "alias mousee='$REPO_ROOT/hide-cursor/cursor-toggle.sh && exit'"
 )
 
 WALLPAPER="$REPO_ROOT/assets/wallpaper/"*
