@@ -42,6 +42,28 @@ REBOOT_COOLDOWN=300
 MAX_CONSECUTIVE_REBOOTS=3
 
 
+# For ntfy()
+
+# Enable or disable ntfy notifications.
+NTFY_ENABLED=true
+
+# ntfy server.
+NTFY_SERVER="https://ntfy.nerdvpn.de"
+
+# ntfy topic.
+NTFY_TOPIC="$(hostname)"
+
+# Enable notifications for individual recovery types.
+NTFY_WIFI=true
+
+NTFY_NETWORKMANAGER=true
+
+NTFY_REBOOT=true
+
+# Notify when the maximum consecutive reboot limit is reached.
+NTFY_FAILURE=true
+
+
 
 ###############################################################################
 # Runtime State Variables
@@ -83,6 +105,161 @@ RECOVERY_ACTIVE=false
 
 log() {
     echo "[$(date '+%F %T')] $*"
+}
+
+
+
+###############################################################################
+# ntfy Notifications
+###############################################################################
+
+ntfy() {
+
+    local event="$1"
+
+    # Do nothing if ntfy notifications are disabled.
+    if [[ "$NTFY_ENABLED" != "true" ]]
+    then
+        return 0
+    fi
+
+
+    local title
+    local message
+    local priority
+    local tags
+
+
+    case "$event" in
+
+        wifi)
+
+            if [[ "$NTFY_WIFI" != "true" ]]
+            then
+                return 0
+            fi
+
+            title="Wi-Fi Recovery"
+            message="Wi-Fi disconnect and reconnect successful.
+
+Recovery Count: ${RECOVERY_COUNT}
+Wi-Fi Reconnects: ${WIFI_RECONNECTS}
+NetworkManager Restarts: ${NM_RESTARTS}
+Reboots: ${REBOOTS}
+
+Incident: ${LAST_FAILURE}
+Time: ${LAST_SUCCESS_TIME}"
+
+            priority="default"
+            tags="wifi,white_check_mark"
+
+            ;;
+
+
+        networkmanager)
+
+            if [[ "$NTFY_NETWORKMANAGER" != "true" ]]
+            then
+                return 0
+            fi
+
+            title="NetworkManager Recovery"
+            message="NetworkManager restart successful.
+
+Recovery Count: ${RECOVERY_COUNT}
+Wi-Fi Reconnects: ${WIFI_RECONNECTS}
+NetworkManager Restarts: ${NM_RESTARTS}
+Reboots: ${REBOOTS}
+
+Incident: ${LAST_FAILURE}
+Time: ${LAST_SUCCESS_TIME}"
+
+            priority="default"
+            tags="networkmanager,white_check_mark"
+
+            ;;
+
+
+        reboot)
+
+            if [[ "$NTFY_REBOOT" != "true" ]]
+            then
+                return 0
+            fi
+
+            title="Watchdog Reboot"
+            message="Network watchdog is rebooting the Pi.
+
+Recovery Count: ${RECOVERY_COUNT}
+Wi-Fi Reconnects: ${WIFI_RECONNECTS}
+NetworkManager Restarts: ${NM_RESTARTS}
+Reboots: ${REBOOTS}
+Consecutive Reboots: ${CONSECUTIVE_REBOOTS}
+
+Incident: ${LAST_FAILURE}
+Time: ${WATCHDOG_REBOOT_TIME}"
+
+            priority="high"
+            tags="warning,recycle"
+
+            ;;
+
+
+        failure)
+
+            if [[ "$NTFY_FAILURE" != "true" ]]
+            then
+                return 0
+            fi
+
+            title="WATCHDOG FAILURE"
+            message="Maximum consecutive reboot limit reached.
+
+Manual intervention required.
+
+Recovery Count: ${RECOVERY_COUNT}
+Wi-Fi Reconnects: ${WIFI_RECONNECTS}
+NetworkManager Restarts: ${NM_RESTARTS}
+Reboots: ${REBOOTS}
+Consecutive Reboots: ${CONSECUTIVE_REBOOTS}
+
+Last Failure: ${LAST_FAILURE}
+Failure Time: ${LAST_FAILURE_TIME}"
+
+            priority="urgent"
+            tags="rotating_light,warning"
+
+            ;;
+
+
+        *)
+
+            log "[WARNING] Unknown ntfy event: ${event}"
+            return 1
+
+            ;;
+
+    esac
+
+
+    if curl \
+        --silent \
+        --show-error \
+        --fail \
+        --max-time 10 \
+        -H "Title: ${title}" \
+        -H "Priority: ${priority}" \
+        -H "Tags: ${tags}" \
+        -d "$message" \
+        "${NTFY_SERVER}/${NTFY_TOPIC}"
+    then
+        log "ntfy notification sent: ${event}"
+        return 0
+    else
+        log "[WARNING] Failed to send ntfy notification: ${event}"
+        return 1
+    fi
+
 }
 
 
