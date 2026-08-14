@@ -35,7 +35,7 @@ ALIASES=(
     "alias mousee='$REPO_ROOT/hide-cursor/cursor-toggle.sh && exit'"
 )
 
-WALLPAPER="$REPO_ROOT/assets/wallpaper/"*
+WALLPAPER="$(find "$REPO_ROOT/assets/wallpaper" -maxdepth 1 -type f -print -quit)"
 
 
 #Remove Chrome and FireFox
@@ -84,7 +84,7 @@ if [ ! -f ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf ]; then
     cp /etc/xdg/pcmanfm/default/desktop-items-0.conf ~/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf 2>/dev/null || true
 fi
 sed -i 's|show_trash=1|show_trash=0|' $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
-sed -i "s|wallpaper=|wallpaper=$WALLPAPER" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
+sed -i "s|wallpaper=.*|wallpaper=$WALLPAPER|" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 
 #Ask To Reboot
 echo "
