@@ -8,7 +8,7 @@
 
 - [ ] Add hide-cursor about section
 
-- [ ] Add explanation about how I am using this whole setup with sharepoint etc.
+- [ ] Add explanation about how I am using this whole setup with sharepoint etc. Setup and Installation sections after Introduction and About.
 
 
 ### Idea's
