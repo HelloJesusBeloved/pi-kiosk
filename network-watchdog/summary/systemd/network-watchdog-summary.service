@@ -1,0 +1,6 @@
+[Unit]
+Description=Network Watchdog Daily Summary
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/network-watchdog-summary.sh
