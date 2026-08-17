@@ -7,6 +7,9 @@ network-watchdog-summary.timer
 network-watchdog-summary.service
             │
             ▼
+network-watchdog-summary.sh
+            │
+            ▼
 read state file
             │
             ▼
