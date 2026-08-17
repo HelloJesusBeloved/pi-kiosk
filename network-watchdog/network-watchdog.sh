@@ -864,10 +864,10 @@ recover_network() {
     then
         log "Recovery successful."
 
-	      record_recovery_success wifi
+	record_recovery_success wifi
 
-	      save_state
-	      restart_firefox
+	save_state
+	restart_firefox
 
         return
     fi
@@ -876,10 +876,10 @@ recover_network() {
     then
         log "Recovery successful."
 
-	      record_recovery_success networkmanager
+	record_recovery_success networkmanager
 
-	      save_state
-	      restart_firefox
+	save_state
+	restart_firefox
 
         return
     fi
