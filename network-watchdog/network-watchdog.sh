@@ -58,6 +58,10 @@ NTFY_WIFI=true
 
 NTFY_NETWORKMANAGER=true
 
+
+#NOTE: the following 2 do not currently work because when they are reached there is no network connectivity to send the notification. 
+#Can be fixed by making a WATCHDOG_FAILURE variable persist and send it after the reboot based on that, but that will require me to changed the script architecture quite a bit, and I can't do that rn.
+
 NTFY_REBOOT=true
 
 # Notify when the maximum consecutive reboot limit is reached.
