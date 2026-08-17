@@ -743,6 +743,8 @@ request_reboot() {
         log "Maximum consecutive reboot limit reached."
         log "Manual intervention required."
 
+	ntfy failure
+
         return 1
     fi
 
@@ -800,10 +802,11 @@ request_reboot() {
 
     WATCHDOG_REBOOT_TIME="$(date '+%F %T')"
 
-		RECOVERY_ACTIVE=false
+    RECOVERY_ACTIVE=false
 
     save_state
 
+    ntfy reboot
 
     ###########################################################################
     # Log Reboot
@@ -815,7 +818,7 @@ request_reboot() {
     log "Consecutive Reboots: ${CONSECUTIVE_REBOOTS}"
     log "============================================================"
 
-    sleep 3
+    sleep 5
 
     ###########################################################################
     # Reboot
@@ -867,6 +870,8 @@ recover_network() {
 	record_recovery_success wifi
 
 	save_state
+	ntfy wifi
+
 	restart_firefox
 
         return
@@ -879,6 +884,8 @@ recover_network() {
 	record_recovery_success networkmanager
 
 	save_state
+	ntfy networkmanager
+
 	restart_firefox
 
         return
