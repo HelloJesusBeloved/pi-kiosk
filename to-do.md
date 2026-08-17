@@ -4,13 +4,15 @@
 
 - [ ]Figure out how to actually make journalctl logs permanent and add it to turpats
 
-- [ ] Add ntfy support to network-watchdog
+- [x] Add ntfy support to network-watchdog
 
 - [ ] Add hide-cursor about section
 
 - [ ] Add explanation about how I am using this whole setup with sharepoint etc. Setup and Installation sections after Introduction and About.
 
 - [ ] Make sure network-watchdog isn't triggered when the sheduled 3am reboot happens
+
+- [ ] Probably install hide-cursor scripts to bin?
 
 
 ### Idea's
