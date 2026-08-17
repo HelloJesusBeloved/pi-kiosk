@@ -241,6 +241,9 @@ Ending File Structure:
 
 ## Setup
 
+1. **Hardware:** https://a.co/0gI0D6Un
+
+2. **Install Raspberry Pi Imager:** https://www.raspberrypi.com/software/
 
 
 
