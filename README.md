@@ -260,15 +260,15 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
 ./setup/install-firefox-kiosk-and-network-watchdog.sh && ./setup/the-ultimate-raspberry-pi-announcement-tv-setup.sh && ./network-watchdog/summary/setup/install-network-watchdog-summary.sh
 ```
 
-2. Configure Firefox Settings and Extensions
-    A. In Settings > Home set "Homepage and new windows" to the URL of the website you want the kiosk to display
-        Note: I don't enable "Open previous windows and tabs," so that it opens the website fresh each time.
+2. Configure Firefox Settings and Extensions  
+    A. In Settings > Home set "Homepage and new windows" to the URL of the website you want the kiosk to display  
+        Note: I don't enable "Open previous windows and tabs," so that it opens the website fresh each time.  
 
-    B. Install these extensions:
-        - https://addons.mozilla.org/en-US/firefox/addon/autofullscreen/ (To automatically maxamize the website displayed)
-        - https://addons.mozilla.org/en-US/firefox/addon/tab-auto-refresh/ (To periodically refresh the website to pull new content if needed. I have mine set to refresh every hour (3600 seconds))
-        - https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/ (To hide browser elements with the element picker tool to make it look cleaner if needed)
-        Note: I have tried a fair few extensions, and these are the exact ones that have worked the best for me so far.
+    B. Install these extensions:  
+        - https://addons.mozilla.org/en-US/firefox/addon/autofullscreen/ (To automatically maxamize the website displayed)  
+        - https://addons.mozilla.org/en-US/firefox/addon/tab-auto-refresh/ (To periodically refresh the website to pull new content if needed. I have mine set to refresh every hour (3600 seconds))  
+        - https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/ (To hide browser elements with the element picker tool to make it look cleaner if needed)  
+        Note: I have tried a fair few extensions, and these are the exact ones that have worked the best for me so far.  
 
     C. Adjust the zoom (with ctrl + or -), and use UBlock's element picker (I usually bind it to ctrl + alt + a - on the Extensions page, to the right of where it says "Manage Your Extensions," click the gear/settings icon > Manage Extension Shortcuts) to make the website how you would like it to look!
 
