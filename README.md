@@ -227,16 +227,16 @@ journalctl -t network-watchdog
 
 Ending File Structure:
 
-`$HOME/.config/systemd/user/`
-`firefox-kiosk.service`
-`network-watchdog.service`
+`$HOME/.config/systemd/user/`  
+`firefox-kiosk.service`  
+`network-watchdog.service`  
 
-`$HOME/.local/bin/`
-`firefox-kiosk.sh`
-`network-watchdog.sh`
+`$HOME/.local/bin/`  
+`firefox-kiosk.sh`  
+`network-watchdog.sh`  
 
-`#HOME/.local/share/pi-kiosk/`
-`network-watchdog.state`
+`#HOME/.local/share/pi-kiosk/`  
+`network-watchdog.state`  
 
 
 ## Setup
