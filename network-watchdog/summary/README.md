@@ -1,6 +1,6 @@
 📊 Daily Network Watchdog Summary
 
-
+<pre>
 network-watchdog-summary.timer
             │
             ▼
@@ -14,6 +14,7 @@ send daily summary
             │
             ▼
 central ntfy topic
+</pre>
 
 ## About
 
