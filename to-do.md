@@ -18,6 +18,8 @@
 
 - [ ] Make turpats run mouse once to download and install first runtime dependancys
 
+- [ ] Explain what ntfy is and how to use it at the bottom of the README.md
+
 
 ### Idea's
 
