@@ -272,9 +272,9 @@ systemctl --user list-timers network-watchdog-summary.timer
 
 ## Install
 
-(The terminal on a RaspberryPi 5 running Raspberry Pi OS (64-bit) can be opned by pressing super + enter (in Linux, the super button is the Windows key:)
+(The terminal on a RaspberryPi 5 running Raspberry Pi OS (64-bit) can be opned by pressing super + enter (on Linux, the super button is the Windows key:)
 
-1. Paste this into the terminal to Download and Install The Ultimate Raspberry Pi Kiosk Setup 😎.
+1. **Download and Install The Ultimate Raspberry Pi Kiosk Setup 😎**
 ```bash
 #Download and enter this repository
 git clone https://git.nerdvpn.de/HelloJesusBeloved/pi-kiosk && cd pi-kiosk
@@ -286,7 +286,7 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
 ./setup/install-firefox-kiosk-and-network-watchdog.sh && ./setup/the-ultimate-raspberry-pi-announcement-tv-setup.sh && ./network-watchdog/summary/setup/install-network-watchdog-summary.sh
 ```
 
-2. Configure Firefox Settings and Extensions  
+2. **Configure Firefox Settings and Extensions**  
     A. In Settings > Home set "Homepage and new windows" to the URL of the website you want the kiosk to display  
         Note: I don't enable "Open previous windows and tabs," so that it opens the website fresh each time.  
 
@@ -296,9 +296,14 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
         - https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/ (To hide browser elements with the element picker tool to make it look cleaner if needed)  
         Note: I have tried a fair few extensions, and these are the exact ones that have worked the best for me so far.  
 
-    C. Adjust the zoom (with ctrl + or -), and use UBlock's element picker (I usually bind it to ctrl + alt + a - on the Extensions page, to the right of where it says "Manage Your Extensions," click the gear/settings icon > Manage Extension Shortcuts) to make the website how you would like it to look!
+    C. Turn Off Session Restore  
+        - Type and enter about:config in the browser search bar, accept the risk (just means if you change the wrong settings you could mess things up), and search for the preference: browser.sessionstore.max_resumed_crashes, change from a 1 to a 0  
+        Note: The reason to do this is because when the Pi restarts nightly, firefox obviously thinks that it crashed, and gives you a page with a button to click to restore your previous pages. Obviously we don't want that, we want it to simply start back up and go to the website.
 
-3. To toggle the mouse's visibility, type and enter "mouse" in the terminal. To toggle the mouse and exit the terminal, type and enter "mousee"
+    D. Adjust the zoom (with ctrl + or -), and use UBlock's element picker (I usually bind it to ctrl + alt + a - on the Extensions page, to the right of where it says "Manage Your Extensions," click the gear/settings icon > Manage Extension Shortcuts) to make the website how you would like it to look!
+
+3. **Make Mouse Invisible**  
+- To toggle the mouse's visibility, type and enter "mouse" in the terminal. To toggle the mouse and exit the terminal, type and enter "mousee"
 
 ### Ending File Structure:
 
