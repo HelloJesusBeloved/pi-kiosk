@@ -297,7 +297,7 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
         Note: I have tried a fair few extensions, and these are the exact ones that have worked the best for me so far.  
 
     C. Turn Off Session Restore  
-        - Type and enter about:config in the browser search bar, accept the risk (just means if you change the wrong settings you could mess things up), and search for the preference: browser.sessionstore.max_resumed_crashes, change from a 1 to a 0  
+        - Type and enter about:config in the browser search bar, accept the risk (just means if you change the wrong settings you could mess things up), and search for the preference: browser.sessionstore.resume_from_crash, double click it to change it from true to false  
         Note: The reason to do this is because when the Pi restarts nightly, firefox obviously thinks that it crashed, and gives you a page with a button to click to restore your previous pages. Obviously we don't want that, we want it to simply start back up and go to the website.
 
     D. Adjust the zoom (with ctrl + or -), and use UBlock's element picker (I usually bind it to ctrl + alt + a - on the Extensions page, to the right of where it says "Manage Your Extensions," click the gear/settings icon > Manage Extension Shortcuts) to make the website how you would like it to look!
