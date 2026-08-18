@@ -14,6 +14,10 @@
 
 - [ ] Probably install hide-cursor scripts to bin?
 
+- [ ] Maybe just remove any old mouse and mousee alias's from the bashrc so if you install pi-kiosk in a different dir you don't get multiple that conflict
+
+- [ ] Make turpats run mouse once to download and install first runtime dependancys
+
 
 ### Idea's
 
