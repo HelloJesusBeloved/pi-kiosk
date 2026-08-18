@@ -268,7 +268,20 @@ systemctl --user list-timers network-watchdog-summary.timer
 
 1. **Hardware:** https://a.co/0gI0D6Un
 
-2. **Download Raspberry Pi Imager:** https://www.raspberrypi.com/software/
+    A. If you prefer not to go on amazon, here is the Hardware I used:
+        - Raspberry Pi 5 4GB
+        - SanDisk 16GB Ultra SD Card
+        - CanaKit 45W USB-C Power Supply (MUST BE A CERTAIN VOLTAGE COMPATIBLE WITH THE PI 5, regular usb-c chargers will not work. It is worth just getting one made for the Pi)
+        - USK MOUNT TV Wall Mount Monitor Bracket
+        - SMALLRIG Micro Ultra Thin HDMI to Micro HDMI Cable (There are 3 sizes of HDMI cable, IT MUST BE MICRO, NOT MINI. I just got a small cable with HDMI on one end and Micro HDMI on the other)
+        - iUniker Aluminum Case (I used velcro to stick onto the Pi and the back of the TV to mount the Pi)
+        - AGPTEK Cable Sleeves (Optional, for putting your TV and Pi power cables into a nice tube)
+
+2. **Download Raspberry Pi Imager:** https://www.raspberrypi.com/software/  
+
+    A. Flash your SD card with Raspberry Pi OS (64-bit)
+        - Steps are pretty simple, and most of them personal preference, I usually enable Pi Connect, which lets you remote into your Pi from anywhere for free!
+    B. Instert the card and boot up the Pi! You are now ready to Install.
 
 ## Install
 
@@ -302,10 +315,14 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
 
     D. Adjust the zoom (with ctrl + or -), and use UBlock's element picker (I usually bind it to ctrl + alt + a - on the Extensions page, to the right of where it says "Manage Your Extensions," click the gear/settings icon > Manage Extension Shortcuts) to make the website how you would like it to look!
 
-3. **Make Mouse Invisible**  
+3. **Enable Raspberry Pi Connect**
+    A. Click on the circle with two boxes shape in the top right corner on the task bar, and sign in to your account  
+    Note: "Personal" Pi Connect accounts are entirely free, while Business accounts have a fee (albeit a very small one). I believe the only perk of a Business account over a Personal one is that you are able to have multiple user accounts access the Pi, and you are able to transfer ownership. However, using a Personal account for your business is perfectly aloud by Raspberry Pi, just make sure to use an email that people who you want can have access to sign in (like IT@your-company.com, so you don't lose access to all your Pi's once your IT guy who's been holding up the company for years leaves;)
+
+4. **Make Mouse Invisible**  
 - To toggle the mouse's visibility, type and enter "mouse" in the terminal. To toggle the mouse and exit the terminal, type and enter "mousee"
 
-### Ending File Structure:
+## Ending File Structure:
 
 <pre>
 $HOME/.config/
@@ -328,7 +345,7 @@ $HOME/.local
         └── network-watchdog.state
 </pre>
 
-### Ending User Systemd Structure:
+## Ending User Systemd Structure:
 
 <pre>
                     systemd user instances
