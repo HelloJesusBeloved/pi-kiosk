@@ -224,18 +224,73 @@ journalctl -t network-watchdog
 `systemctl --user start/stop/restart network-watchdog.service`
 - **Status:** Ready
 
-Ending File Structure:
+### 4. network-watchdog-summary.service
+
+- **Purpose:** Send you a daily notification via ntfy containing a report of the state file stats. (if you don't care about logs you can ignore this)
+- **Flow Diagram:**
+<pre>
+network-watchdog-summary.timer
+ (timer set to run daily)
+            │
+            ▼
+network-watchdog-summary.service
+   (runs once, executing)
+            │
+            ▼
+network-watchdog-summary.sh
+         (which)
+            │
+            ▼
+reads state file
+            │
+            ▼
+send daily summary to central ntfy topic
+</pre>
+Basically the .timer runs the .service at the correct time, which runs the .sh which runs the ntfy commands to send the summary
+- **Control:**  
+To receive a summary manually:  
+```bash
+systemctl --user start network-watchdog-summary.service
+```
+
+To check timer status: 
+```bash
+systemctl --user list-timers network-watchdog-summary.timer
+```
+
+## Ending File Structure:
 
 `$HOME/.config/systemd/user/`  
 `firefox-kiosk.service`  
 `network-watchdog.service`  
+`network-watchdog-summary.service`  
+`network-watchdog-summary.timer`  
 
 `$HOME/.local/bin/`  
 `firefox-kiosk.sh`  
 `network-watchdog.sh`  
+`network-watchdog-summary.sh`  
 
 `#HOME/.local/share/pi-kiosk/`  
 `network-watchdog.state`  
+
+## Ending User Systemd Structure:
+
+<pre>
+                    systemd user instances
+                              │
+             ┌────────────────┼───────────────────────┐
+             │                │                       │
+             ▼                ▼                       ▼
+      firefox-kiosk   network-watchdog   network-watchdog-summary.timer
+          .service          .service                  │
+             │                │                       │
+             ▼                ▼                       ▼
+      firefox-kiosk.sh  network-watchdog.sh  network-watchdog-summary.service
+                                                      │
+                                                      ▼
+                                      network-watchdog-summary.sh
+</pre>
 
 
 ## Setup
