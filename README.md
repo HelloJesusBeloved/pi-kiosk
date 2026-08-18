@@ -307,19 +307,26 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
 
 ### Ending File Structure:
 
-`$HOME/.config/systemd/user/`  
-`firefox-kiosk.service`  
-`network-watchdog.service`  
-`network-watchdog-summary.service`  
-`network-watchdog-summary.timer`  
+<pre>
+$HOME/.config/
+└── systemd
+    └── user
+        ├── firefox-kiosk.service
+        ├── network-watchdog.service
+        ├── network-watchdog-summary.service
+        └── network-watchdog-summary.timer
+</pre>
 
-`$HOME/.local/bin/`  
-`firefox-kiosk.sh`  
-`network-watchdog.sh`  
-`network-watchdog-summary.sh`  
-
-`#HOME/.local/share/pi-kiosk/`  
-`network-watchdog.state`  
+<pre>
+$HOME/.local
+├── bin
+│   ├── firefox-kiosk.sh
+│   ├── network-watchdog.sh
+│   └── network-watchdog-summary.sh
+└── share
+    └── pi-kiosk
+        └── network-watchdog.state
+</pre>
 
 ### Ending User Systemd Structure:
 
