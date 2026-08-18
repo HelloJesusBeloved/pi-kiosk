@@ -289,14 +289,14 @@ systemctl --user list-timers network-watchdog-summary.timer
 
 1. **Download and Install The Ultimate Raspberry Pi Kiosk Setup 😎**
 ```bash
-#Download and enter this repository
+#Download and enter the repository
 git clone https://git.nerdvpn.de/HelloJesusBeloved/pi-kiosk && cd pi-kiosk
 
-#Make the install scripts executable
-chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultimate-raspberry-pi-announcement-tv-setup.sh ./network-watchdog/summary/setup/install-network-watchdog-summary.sh
+#Make the install script executable
+chmod +x ./setup/install.sh
 
-#Run the setup scripts
-./setup/install-firefox-kiosk-and-network-watchdog.sh && ./setup/the-ultimate-raspberry-pi-announcement-tv-setup.sh && ./network-watchdog/summary/setup/install-network-watchdog-summary.sh
+#Run the install script
+./setup/install.sh
 ```
 
 2. **Configure Firefox Settings and Extensions**  

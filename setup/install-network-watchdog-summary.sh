@@ -8,7 +8,7 @@ set -e
 ###############################################################################
 
 # Set how many directories below the repository root this script is located.
-REPO_ROOT_DEPTH=3
+REPO_ROOT_DEPTH=1
 
 # Find the absolute path of the directory containing this script.
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
