@@ -268,19 +268,19 @@ systemctl --user list-timers network-watchdog-summary.timer
 
 1. **Hardware:** https://a.co/0gI0D6Un
 
-    A. If you prefer not to go on amazon, here is the Hardware I used:
-        - Raspberry Pi 5 4GB
-        - SanDisk 16GB Ultra SD Card
-        - CanaKit 45W USB-C Power Supply (MUST BE A CERTAIN VOLTAGE COMPATIBLE WITH THE PI 5, regular usb-c chargers will not work. It is worth just getting one made for the Pi)
-        - USK MOUNT TV Wall Mount Monitor Bracket
-        - SMALLRIG Micro Ultra Thin HDMI to Micro HDMI Cable (There are 3 sizes of HDMI cable, IT MUST BE MICRO, NOT MINI. I just got a small cable with HDMI on one end and Micro HDMI on the other)
-        - iUniker Aluminum Case (I used velcro to stick onto the Pi and the back of the TV to mount the Pi)
-        - AGPTEK Cable Sleeves (Optional, for putting your TV and Pi power cables into a nice tube)
+    A. If you prefer not to go on amazon, here is the Hardware I used:  
+        - Raspberry Pi 5 4GB  
+        - SanDisk 16GB Ultra SD Card  
+        - CanaKit 45W USB-C Power Supply (MUST BE A CERTAIN VOLTAGE COMPATIBLE WITH THE PI 5, regular usb-c chargers will not work. It is worth just getting one made for the Pi)  
+        - USK MOUNT TV Wall Mount Monitor Bracket  
+        - SMALLRIG Micro Ultra Thin HDMI to Micro HDMI Cable (There are 3 sizes of HDMI cable, IT MUST BE MICRO, NOT MINI. I just got a small cable with HDMI on one end and Micro HDMI on the other)  
+        - iUniker Aluminum Case (I used velcro to stick onto the Pi and the back of the TV to mount the Pi)  
+        - AGPTEK Cable Sleeves (Optional, for putting your TV and Pi power cables into a nice tube)  
 
 2. **Download Raspberry Pi Imager:** https://www.raspberrypi.com/software/  
 
-    A. Flash your SD card with Raspberry Pi OS (64-bit)
-        - Steps are pretty simple, and most of them personal preference, I usually enable Pi Connect, which lets you remote into your Pi from anywhere for free!
+    A. Flash your SD card with Raspberry Pi OS (64-bit)  
+        - Steps are pretty simple, and most of them personal preference, I usually enable Pi Connect, which lets you remote into your Pi from anywhere for free!  
     B. Instert the card and boot up the Pi! You are now ready to Install.
 
 ## Install
