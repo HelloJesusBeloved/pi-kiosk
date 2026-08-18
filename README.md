@@ -227,7 +227,9 @@ journalctl -t network-watchdog
 ### 4. network-watchdog-summary.service
 
 - **Purpose:** Send you a daily notification via ntfy containing a report of the state file stats. (if you don't care about logs you can ignore this)
-- **Flow Diagram:**
+<details>
+<summary><b>Flow Diagram</b></summary>
+
 <pre>
 network-watchdog-summary.timer
  (timer set to run daily)
@@ -246,6 +248,9 @@ reads state file
             ▼
 send daily summary to central ntfy topic
 </pre>
+
+</details>
+
 Basically the .timer runs the .service at the correct time, which runs the .sh which runs the ntfy commands to send the summary
 - **Control:**  
 To receive a summary manually:  
@@ -258,48 +263,12 @@ To check timer status:
 systemctl --user list-timers network-watchdog-summary.timer
 ```
 
-## Ending File Structure:
-
-`$HOME/.config/systemd/user/`  
-`firefox-kiosk.service`  
-`network-watchdog.service`  
-`network-watchdog-summary.service`  
-`network-watchdog-summary.timer`  
-
-`$HOME/.local/bin/`  
-`firefox-kiosk.sh`  
-`network-watchdog.sh`  
-`network-watchdog-summary.sh`  
-
-`#HOME/.local/share/pi-kiosk/`  
-`network-watchdog.state`  
-
-## Ending User Systemd Structure:
-
-<pre>
-                    systemd user instances
-                              │
-             ┌────────────────┼───────────────────────┐
-             │                │                       │
-             ▼                ▼                       ▼
-      firefox-kiosk   network-watchdog   network-watchdog-summary.timer
-          .service          .service                  │
-             │                │                       │
-             ▼                ▼                       ▼
-      firefox-kiosk.sh  network-watchdog.sh  network-watchdog-summary.service
-                                                      │
-                                                      ▼
-                                      network-watchdog-summary.sh
-</pre>
-
 
 ## Setup
 
 1. **Hardware:** https://a.co/0gI0D6Un
 
-2. **Install Raspberry Pi Imager:** https://www.raspberrypi.com/software/
-
-
+2. **Download Raspberry Pi Imager:** https://www.raspberrypi.com/software/
 
 ## Install
 
@@ -330,3 +299,38 @@ chmod +x ./setup/install-firefox-kiosk-and-network-watchdog.sh ./setup/the-ultim
     C. Adjust the zoom (with ctrl + or -), and use UBlock's element picker (I usually bind it to ctrl + alt + a - on the Extensions page, to the right of where it says "Manage Your Extensions," click the gear/settings icon > Manage Extension Shortcuts) to make the website how you would like it to look!
 
 3. To toggle the mouse's visibility, type and enter "mouse" in the terminal. To toggle the mouse and exit the terminal, type and enter "mousee"
+
+### Ending File Structure:
+
+`$HOME/.config/systemd/user/`  
+`firefox-kiosk.service`  
+`network-watchdog.service`  
+`network-watchdog-summary.service`  
+`network-watchdog-summary.timer`  
+
+`$HOME/.local/bin/`  
+`firefox-kiosk.sh`  
+`network-watchdog.sh`  
+`network-watchdog-summary.sh`  
+
+`#HOME/.local/share/pi-kiosk/`  
+`network-watchdog.state`  
+
+### Ending User Systemd Structure:
+
+<pre>
+                    systemd user instances
+                              │
+             ┌────────────────┼───────────────────────┐
+             │                │                       │
+             ▼                ▼                       ▼
+      firefox-kiosk   network-watchdog   network-watchdog-summary.timer
+          .service          .service                  │
+             │                │                       │
+             ▼                ▼                       ▼
+      firefox-kiosk.sh  network-watchdog.sh  network-watchdog-summary.service
+                                                      │
+                                                      ▼
+                                      network-watchdog-summary.sh
+</pre>
+
