@@ -30,6 +30,10 @@ BIN_DIR="$HOME/.local/bin"
 
 SYSTEMD_USER_DIR="$HOME/.config/systemd/user"
 
+STATE_DIR="$HOME/.local/share/pi-kiosk"
+
+SUMMARY_STATE_FILE="$STATE_DIR/network-watchdog-summary.state"
+
 
 ###############################################################################
 # Source Files
@@ -40,6 +44,160 @@ SUMMARY_SCRIPT="$REPO_ROOT/network-watchdog/summary/network-watchdog-summary.sh"
 SUMMARY_SERVICE="$REPO_ROOT/network-watchdog/summary/systemd/network-watchdog-summary.service"
 
 SUMMARY_TIMER="$REPO_ROOT/network-watchdog/summary/systemd/network-watchdog-summary.timer"
+
+
+###############################################################################
+# Configuration Options
+###############################################################################
+
+# Each option uses the format:
+#
+#     Display Name=value
+#
+# Add, remove, or change options here without changing the menu logic below.
+
+
+SUMMARY_NTFY_ENABLED_OPTIONS=(
+    "Enabled=true"
+    "Disabled=false"
+)
+
+
+SUMMARY_NTFY_SERVER_OPTIONS=(
+    "NerdVPN ntfy server=https://ntfy.nerdvpn.de"
+    "ntfy.sh=https://ntfy.sh"
+)
+
+
+SUMMARY_NTFY_TOPIC_OPTIONS=(
+    "Pi Kiosk Summary=pi-kiosk-summary"
+    "Hostname=$(hostname)"
+)
+
+
+###############################################################################
+# Configuration Functions
+###############################################################################
+
+choose_option() {
+
+    local prompt="$1"
+
+    shift
+
+    local options=("$@")
+
+    local selection
+    local value
+
+
+    echo
+    echo "$prompt"
+    echo
+
+
+    select selection in "${options[@]}"
+    do
+        if [[ -n "$selection" ]]
+        then
+            value="${selection#*=}"
+
+            echo "$value"
+
+            return 0
+        fi
+
+        echo "Invalid selection."
+    done
+
+}
+
+
+configure_summary_state() {
+
+    mkdir -p "$STATE_DIR"
+
+
+    ###########################################################################
+    # Existing Configuration
+    ###########################################################################
+
+    if [[ -f "$SUMMARY_STATE_FILE" ]]
+    then
+        echo
+        echo "Existing Network Watchdog Summary configuration found:"
+        echo
+        cat "$SUMMARY_STATE_FILE"
+        echo
+
+        read -r -p "Keep the existing configuration? [Y/n]: " KEEP_EXISTING
+
+        if [[ -z "$KEEP_EXISTING" || "$KEEP_EXISTING" =~ ^[Yy]$ ]]
+        then
+            echo "Keeping existing configuration."
+            return 0
+        fi
+
+        echo
+        echo "Existing configuration will be overwritten."
+
+    else
+        echo
+        echo "No Network Watchdog Summary configuration found."
+        echo "Let's configure it now."
+
+    fi
+
+
+    ###########################################################################
+    # Select Configuration
+    ###########################################################################
+
+    SUMMARY_NTFY_ENABLED=$(choose_option \
+        "Enable ntfy notifications?" \
+        "${SUMMARY_NTFY_ENABLED_OPTIONS[@]}")
+
+
+    SUMMARY_NTFY_SERVER=$(choose_option \
+        "Select the ntfy server:" \
+        "${SUMMARY_NTFY_SERVER_OPTIONS[@]}")
+
+
+    SUMMARY_NTFY_TOPIC=$(choose_option \
+        "Select the ntfy topic:" \
+        "${SUMMARY_NTFY_TOPIC_OPTIONS[@]}")
+
+
+    ###########################################################################
+    # Write Configuration
+    ###########################################################################
+
+    cat > "$SUMMARY_STATE_FILE" << EOF
+SUMMARY_NTFY_ENABLED=$SUMMARY_NTFY_ENABLED
+SUMMARY_NTFY_SERVER=$SUMMARY_NTFY_SERVER
+SUMMARY_NTFY_TOPIC=$SUMMARY_NTFY_TOPIC
+EOF
+
+
+    chmod 600 "$SUMMARY_STATE_FILE"
+
+
+    echo
+    echo "Network Watchdog Summary configuration saved:"
+    echo
+    cat "$SUMMARY_STATE_FILE"
+    echo
+
+}
+
+
+###############################################################################
+# Configure Network Watchdog Summary
+###############################################################################
+
+echo "Configuring Network Watchdog Daily Summary..."
+
+configure_summary_state
 
 
 ###############################################################################

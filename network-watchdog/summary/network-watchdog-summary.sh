@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
+
 set -euo pipefail
 
+
 STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog.state"
-
-SUMMARY_ENABLED=true
-
-SUMMARY_NTFY_SERVER="https://ntfy.nerdvpn.de"
-
-SUMMARY_NTFY_TOPIC="pi-kiosk-summary"
+SUMMARY_STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog-summary.state"
 
 
 ###############################################################################
@@ -17,11 +14,18 @@ SUMMARY_NTFY_TOPIC="pi-kiosk-summary"
 
 if [[ ! -f "$STATE_FILE" ]]
 then
-    echo "State file not found: $STATE_FILE"
+    echo "Network watchdog state file not found: $STATE_FILE"
+    exit 1
+fi
+
+if [[ ! -f "$SUMMARY_STATE_FILE" ]]
+then
+    echo "Network watchdog summary state file not found: $SUMMARY_STATE_FILE"
     exit 1
 fi
 
 source "$STATE_FILE"
+source "$SUMMARY_STATE_FILE"
 
 
 ###############################################################################
@@ -29,7 +33,6 @@ source "$STATE_FILE"
 ###############################################################################
 
 HOSTNAME="$(hostname)"
-
 CURRENT_TIME="$(date '+%F %T')"
 
 
@@ -62,7 +65,7 @@ Last Success: ${LAST_SUCCESS_TIME}"
 # Send Summary
 ###############################################################################
 
-if [[ "$SUMMARY_ENABLED" != "true" ]]
+if [[ "$SUMMARY_NTFY_ENABLED" != "true" ]]
 then
     exit 0
 fi
