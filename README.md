@@ -39,7 +39,7 @@ journalctl -t firefox-kiosk
 
 ### 3. network-watchdog.service
 
-- **Purpose:** Keep networking alive. Periodically checks connection, if disconnected verifys disconnection, if verified goes through 3 automatic troubleshooting steps: WiFi disconnect/reconnect, Network Manger restart, and finally full system reboot.
+- **Purpose:** Make sure the Pi stays online. Periodically checks network connection, if it detects and verifys that the network has gone down, it goes through 3 automatic troubleshooting steps: Wi-Fi disconnect/connect, NetworkManger restart, and finally full system reboot. 
 <details>
 <summary><b>Flow Diagram</b></summary>
 
@@ -226,7 +226,7 @@ journalctl -t network-watchdog
 
 ### 4. network-watchdog-summary.service
 
-- **Purpose:** Send you a daily notification via ntfy containing a report of the state file stats. (if you don't care about logs you can ignore this)
+- **Purpose:** Send you a daily notification via [ntfy](https://docs.ntfy.sh/) containing a report of the state file stats. (if you don't care about logs you can ignore this)
 <details>
 <summary><b>Flow Diagram</b></summary>
 
