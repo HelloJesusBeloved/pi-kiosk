@@ -102,7 +102,7 @@ choose_option() {
         then
             value="${selection#*=}"
 
-            echo "$value"
+            SELECTED_VALUE="$value"
 
             return 0
         fi
@@ -153,19 +153,25 @@ configure_summary_state() {
     # Select Configuration
     ###########################################################################
 
-    SUMMARY_NTFY_ENABLED=$(choose_option \
-        "Enable ntfy notifications?" \
-        "${SUMMARY_NTFY_ENABLED_OPTIONS[@]}")
+choose_option \
+    "Enable ntfy notifications?" \
+    "${SUMMARY_NTFY_ENABLED_OPTIONS[@]}"
+
+SUMMARY_NTFY_ENABLED="$SELECTED_VALUE"
 
 
-    SUMMARY_NTFY_SERVER=$(choose_option \
-        "Select the ntfy server:" \
-        "${SUMMARY_NTFY_SERVER_OPTIONS[@]}")
+choose_option \
+    "Select the ntfy server:" \
+    "${SUMMARY_NTFY_SERVER_OPTIONS[@]}"
+
+SUMMARY_NTFY_SERVER="$SELECTED_VALUE"
 
 
-    SUMMARY_NTFY_TOPIC=$(choose_option \
-        "Select the ntfy topic:" \
-        "${SUMMARY_NTFY_TOPIC_OPTIONS[@]}")
+choose_option \
+    "Select the ntfy topic:" \
+    "${SUMMARY_NTFY_TOPIC_OPTIONS[@]}"
+
+SUMMARY_NTFY_TOPIC="$SELECTED_VALUE"
 
 
     ###########################################################################
