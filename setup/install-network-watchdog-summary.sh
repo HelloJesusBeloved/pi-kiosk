@@ -75,24 +75,24 @@ SUMMARY_NTFY_ENABLED_ORDER=(
 
 
 declare -A SUMMARY_NTFY_SERVER_OPTIONS=(
-    ["NerdVPN ntfy server"]="https://ntfy.nerdvpn.de"
-    ["ntfy.sh"]="https://ntfy.sh"
+    ["Official ntfy server"]="https://ntfy.sh"
+    ["Custom"]=""
 )
 
 SUMMARY_NTFY_SERVER_ORDER=(
-    "NerdVPN ntfy server"
-    "ntfy.sh"
+    "Official ntfy server"
+    "Custom"
 )
 
 
 declare -A SUMMARY_NTFY_TOPIC_OPTIONS=(
-    ["Pi Kiosk Summary"]="pi-kiosk-summary"
-    ["Hostname"]="$(hostname)"
+    ["Hostname ($(hostname))"]="$(hostname)"
+    ["Custom"]=""
 )
 
 SUMMARY_NTFY_TOPIC_ORDER=(
-    "Pi Kiosk Summary"
-    "Hostname"
+    "Hostname ($(hostname))"
+    "Custom"
 )
 
 
@@ -111,6 +111,7 @@ choose_option() {
 
     local selection
     local display_name
+    local custom_value
 
 
     echo
@@ -122,7 +123,17 @@ choose_option() {
     do
         if [[ -n "$display_name" ]]
         then
-            SELECTED_VALUE="${options[$display_name]}"
+
+            if [[ "$display_name" == "Custom" ]]
+            then
+                read -r -p "Enter custom value: " custom_value
+
+                SELECTED_VALUE="$custom_value"
+
+            else
+                SELECTED_VALUE="${options[$display_name]}"
+
+            fi
 
             return 0
         fi
