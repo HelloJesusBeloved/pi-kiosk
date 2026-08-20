@@ -76,11 +76,13 @@ SUMMARY_NTFY_ENABLED_ORDER=(
 
 declare -A SUMMARY_NTFY_SERVER_OPTIONS=(
     ["Official ntfy server"]="https://ntfy.sh"
+    ["NerdVPN ntfy server"]="https://ntfy.nerdvpn.de"
     ["Custom"]=""
 )
 
 SUMMARY_NTFY_SERVER_ORDER=(
     "Official ntfy server"
+    "NerdVPN ntfy server"
     "Custom"
 )
 
@@ -262,6 +264,7 @@ EOF
     cat "$SUMMARY_STATE_FILE"
     echo
 
+    sleep 1
 }
 
 
@@ -404,5 +407,19 @@ fi
 echo
 echo "Network Watchdog Daily Summary installed successfully."
 echo
+
+sleep 1
+
 echo "Next scheduled run:"
 systemctl --user list-timers network-watchdog-summary.timer --no-pager
+
+
+###############################################################################
+# Ending Message
+###############################################################################
+
+
+echo
+echo
+echo "If you would like to run a test notification, run:"
+echo "systemctl --user start network-watchdog-summary.service"
