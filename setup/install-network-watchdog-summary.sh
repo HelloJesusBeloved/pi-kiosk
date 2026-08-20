@@ -50,28 +50,49 @@ SUMMARY_TIMER="$REPO_ROOT/network-watchdog/summary/systemd/network-watchdog-summ
 # Configuration Options
 ###############################################################################
 
-# Each option uses the format:
+# Each associative array maps:
 #
-#     Display Name=value
+#     ["Display Name"]="Configuration Value"
+#
+# The display name is shown to the user.
+# The configuration value is written to the state file.
+#
+# The corresponding *_ORDER arrays control the order in which
+# the options are displayed.
 #
 # Add, remove, or change options here without changing the menu logic below.
 
 
-SUMMARY_NTFY_ENABLED_OPTIONS=(
-    "Enabled=true"
-    "Disabled=false"
+declare -A SUMMARY_NTFY_ENABLED_OPTIONS=(
+    ["Yes"]="true"
+    ["No"]="false"
+)
+
+SUMMARY_NTFY_ENABLED_ORDER=(
+    "Yes"
+    "No"
 )
 
 
-SUMMARY_NTFY_SERVER_OPTIONS=(
-    "NerdVPN ntfy server=https://ntfy.nerdvpn.de"
-    "ntfy.sh=https://ntfy.sh"
+declare -A SUMMARY_NTFY_SERVER_OPTIONS=(
+    ["NerdVPN ntfy server"]="https://ntfy.nerdvpn.de"
+    ["ntfy.sh"]="https://ntfy.sh"
+)
+
+SUMMARY_NTFY_SERVER_ORDER=(
+    "NerdVPN ntfy server"
+    "ntfy.sh"
 )
 
 
-SUMMARY_NTFY_TOPIC_OPTIONS=(
-    "Pi Kiosk Summary=pi-kiosk-summary"
-    "Hostname=$(hostname)"
+declare -A SUMMARY_NTFY_TOPIC_OPTIONS=(
+    ["Pi Kiosk Summary"]="pi-kiosk-summary"
+    ["Hostname"]="$(hostname)"
+)
+
+SUMMARY_NTFY_TOPIC_ORDER=(
+    "Pi Kiosk Summary"
+    "Hostname"
 )
 
 
@@ -82,13 +103,14 @@ SUMMARY_NTFY_TOPIC_OPTIONS=(
 choose_option() {
 
     local prompt="$1"
+    local array_name="$2"
+    local order_name="$3"
 
-    shift
-
-    local options=("$@")
+    local -n options="$array_name"
+    local -n option_order="$order_name"
 
     local selection
-    local value
+    local display_name
 
 
     echo
@@ -96,13 +118,11 @@ choose_option() {
     echo
 
 
-    select selection in "${options[@]}"
+    select display_name in "${option_order[@]}"
     do
-        if [[ -n "$selection" ]]
+        if [[ -n "$display_name" ]]
         then
-            value="${selection#*=}"
-
-            SELECTED_VALUE="$value"
+            SELECTED_VALUE="${options[$display_name]}"
 
             return 0
         fi
@@ -122,8 +142,21 @@ configure_summary_state() {
     # Existing Configuration
     ###########################################################################
 
+    EXISTING_NTFY_SERVER=""
+    EXISTING_NTFY_TOPIC=""
+
     if [[ -f "$SUMMARY_STATE_FILE" ]]
     then
+
+        # Load the existing configuration so that server/topic can be
+        # preserved if notifications are disabled.
+
+        source "$SUMMARY_STATE_FILE"
+
+        EXISTING_NTFY_SERVER="${SUMMARY_NTFY_SERVER:-}"
+        EXISTING_NTFY_TOPIC="${SUMMARY_NTFY_TOPIC:-}"
+
+
         echo
         echo "Existing Network Watchdog Summary configuration found:"
         echo
@@ -142,6 +175,7 @@ configure_summary_state() {
         echo "Existing configuration will be overwritten."
 
     else
+
         echo
         echo "No Network Watchdog Summary configuration found."
         echo "Let's configure it now."
@@ -150,28 +184,51 @@ configure_summary_state() {
 
 
     ###########################################################################
-    # Select Configuration
+    # Enable/Disable Notifications
     ###########################################################################
 
-choose_option \
-    "Enable ntfy notifications?" \
-    "${SUMMARY_NTFY_ENABLED_OPTIONS[@]}"
+    choose_option \
+        "Enable ntfy notifications?" \
+        SUMMARY_NTFY_ENABLED_OPTIONS \
+        SUMMARY_NTFY_ENABLED_ORDER
 
-SUMMARY_NTFY_ENABLED="$SELECTED_VALUE"
-
-
-choose_option \
-    "Select the ntfy server:" \
-    "${SUMMARY_NTFY_SERVER_OPTIONS[@]}"
-
-SUMMARY_NTFY_SERVER="$SELECTED_VALUE"
+    SUMMARY_NTFY_ENABLED="$SELECTED_VALUE"
 
 
-choose_option \
-    "Select the ntfy topic:" \
-    "${SUMMARY_NTFY_TOPIC_OPTIONS[@]}"
+    ###########################################################################
+    # Configure Server and Topic
+    ###########################################################################
 
-SUMMARY_NTFY_TOPIC="$SELECTED_VALUE"
+    if [[ "$SUMMARY_NTFY_ENABLED" == "true" ]]
+    then
+
+        choose_option \
+            "Select the ntfy server:" \
+            SUMMARY_NTFY_SERVER_OPTIONS \
+            SUMMARY_NTFY_SERVER_ORDER
+
+        SUMMARY_NTFY_SERVER="$SELECTED_VALUE"
+
+
+        choose_option \
+            "Select the ntfy topic:" \
+            SUMMARY_NTFY_TOPIC_OPTIONS \
+            SUMMARY_NTFY_TOPIC_ORDER
+
+        SUMMARY_NTFY_TOPIC="$SELECTED_VALUE"
+
+    else
+
+        # Notifications are disabled.
+        #
+        # Preserve the existing server/topic if they already existed.
+        # If this is a new configuration, they remain blank.
+
+        SUMMARY_NTFY_SERVER="$EXISTING_NTFY_SERVER"
+
+        SUMMARY_NTFY_TOPIC="$EXISTING_NTFY_TOPIC"
+
+    fi
 
 
     ###########################################################################
