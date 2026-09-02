@@ -18,6 +18,7 @@
 
 VERSION="1.0.0"
 
+#Seconds between network checks
 CHECK_INTERVAL=60
 
 STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog.state"
