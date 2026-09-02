@@ -1,5 +1,5 @@
 ## DISCLAIMER:
-Code written mostly by ChatGPT, while I decided the final logic of the code, and put together and tested every line. Currently in development. 
+Code written mostly by ChatGPT, while I decided the final logic of the code, and put together and tested every line. README.md made entirely by me, except the folder/script structure flow diagrams. Currently no longer in active development, I am satisfied with how it works 😌
 
 ## Introduction
 Hello my good Jesus beloved human bean who so happens to be reading this(: This is a collection of bash scripts and systemd user services that manage those scripts, that when put together and setup create what I like to call, The Ultimate Raspberry Pi Kiosk Setup 😎.
