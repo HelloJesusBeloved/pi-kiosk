@@ -16,7 +16,7 @@
 
 - [ ] Maybe just remove any old mouse and mousee alias's from the bashrc so if you install pi-kiosk in a different dir you don't get multiple that conflict
 
-- [ ] Make turpats run mouse once to download and install first runtime dependancys
+- [x] Make turpats run mouse once to download and install first runtime dependancys
 
 - [ ] Explain what ntfy is and how to use it at the bottom of the README.md
 
