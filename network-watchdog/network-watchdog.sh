@@ -25,6 +25,9 @@ STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog.state"
 # The URL to ping to test a Microsoft site is reachable
 SHAREPOINT_URL="https://fairmounthomesorg.sharepoint.com/sites/TVAnnouncementsHC"
 
+# Seconds to wait after the watchdog starts before beginning network monitoring.
+STARTUP_DELAY=60
+
 
 # For verify_failure()
 # Number of consecutive failed checks required before beginning recovery.
@@ -765,6 +768,9 @@ initialize_state
 load_state
 
 log_startup
+
+log "Waiting ${STARTUP_DELAY} seconds before beginning network monitoring..."
+sleep "$STARTUP_DELAY"
 
 # Build the initial network baseline.
 collect_network_state

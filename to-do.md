@@ -10,7 +10,7 @@
 
 - [ ] Add explanation about how I am using this whole setup with sharepoint etc. Setup and Installation sections after Introduction and About.
 
-- [ ] Make sure network-watchdog isn't triggered when the sheduled 3am reboot happens
+- [x] Make sure network-watchdog isn't triggered when the sheduled 3am reboot happens
 
 - [ ] Probably install hide-cursor scripts to bin?
 
