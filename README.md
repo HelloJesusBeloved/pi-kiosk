@@ -13,7 +13,6 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 
 ### 1. the-ultimate-raspberry-pi-announcement-tv-setup.sh
 
-- **Location:** pi-kiosk/setup
 - **Purpose:** Setup the Raspberry Pi 5 with all the correct settings to make it into a kiosk. (Install the correct browser, turn off screen blanking, make the taskbar auto-hide, make it update and reboot nightly, that sort of thing)
 - <details>
     <summary><b>Full Explanation</b></summary>
