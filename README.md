@@ -25,11 +25,15 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 
 - **Purpose:** Controls and Auto-Starts Firefox (via running/managing firefox-kisok.sh), including logging, restarting it if closed or crashed, and making sure the display website is reachable before it launches.
 - **Logs:** 
+
+To view all logs for the current boot:
 ```shell
-journalctl -t firefox-kiosk #past logs
+journalctl -t firefox-kiosk
 ```
+
+To view live logs:
 ```shell
-journalctl -t firefox-kiosk -f #live logs
+journalctl -t firefox-kiosk -f
 ```
 - **Control:**  
 `systemctl --user start/stop/restart firefox-kiosk.service`
@@ -215,11 +219,15 @@ journalctl -t firefox-kiosk -f #live logs
 </details>
 
 - **Logs:** 
+
+To view all logs for the current boot:
 ```shell
-journalctl -t network-watchdog #past logs
+journalctl -t network-watchdog
 ```
+
+To view live logs:
 ```shell
-journalctl -t network-watchdog -f #live logs
+journalctl -t network-watchdog -f
 ```
 - **Control:**  
 `systemctl --user start/stop/restart network-watchdog.service`
@@ -264,6 +272,8 @@ To check timer status:
 ```bash
 systemctl --user list-timers network-watchdog-summary.timer
 ```
+
+- **Status:** Ready
 
 
 ## Setup
