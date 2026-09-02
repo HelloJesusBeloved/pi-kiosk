@@ -25,11 +25,13 @@ Made for the Raspberry Pi 5, running Raspberry Pi OS (64-bit) and Wayland. May w
 
 - **Purpose:** Controls and Auto-Starts Firefox (via running/managing firefox-kisok.sh), including logging, restarting it if closed or crashed, and making sure the display website is reachable before it launches.
 - **Logs:** 
-(add -f for live)
 ```shell
-journalctl -t firefox-kiosk
+journalctl -t firefox-kiosk #past logs
 ```
-- **Control:** 
+```shell
+journalctl -t firefox-kiosk -f #live logs
+```
+- **Control:**  
 `systemctl --user start/stop/restart firefox-kiosk.service`
 - **Status:** Ready
 
@@ -213,11 +215,13 @@ journalctl -t firefox-kiosk
 </details>
 
 - **Logs:** 
-(add -f for live)
 ```shell
-journalctl -t network-watchdog
+journalctl -t network-watchdog #past logs
 ```
-- **Control:** 
+```shell
+journalctl -t network-watchdog -f #live logs
+```
+- **Control:**  
 `systemctl --user start/stop/restart network-watchdog.service`
 - **Status:** Ready
 
@@ -250,6 +254,7 @@ send daily summary to central ntfy topic
 
 Basically the .timer runs the .service at the correct time, which runs the .sh which runs the ntfy commands to send the summary
 - **Control:**  
+
 To receive a summary manually:  
 ```bash
 systemctl --user start network-watchdog-summary.service
