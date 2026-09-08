@@ -104,8 +104,8 @@ do
 done
 
 #Run the hide-cursor scripts once to install the neccessarry dependencies
-$REPO_ROOT/hide-cursor/cursor-hide.sh
 $REPO_ROOT/hide-cursor/cursor-show.sh
+$REPO_ROOT/hide-cursor/cursor-hide.sh
 
 #Make the Desktop Config File and Hide The Wastebin and Set Fairmount Wallpaper
 mkdir -p ~/.config/pcmanfm/default
