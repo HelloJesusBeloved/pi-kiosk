@@ -27,7 +27,7 @@ STATE_FILE="$HOME/.local/share/pi-kiosk/network-watchdog.state"
 SHAREPOINT_URL="https://fairmounthomesorg.sharepoint.com/sites/TVAnnouncementsHC"
 
 # Seconds to wait after the watchdog starts before beginning network monitoring.
-STARTUP_DELAY=60
+STARTUP_DELAY=120
 
 
 # For verify_failure()
@@ -35,7 +35,7 @@ STARTUP_DELAY=60
 FAILURE_CONFIRMATIONS=3
 
 # Seconds between confirmation attempts.
-FAILURE_CONFIRM_DELAY=10
+FAILURE_CONFIRM_DELAY=60
 
 
 # For request_reboot()
