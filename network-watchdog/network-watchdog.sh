@@ -46,6 +46,32 @@ REBOOT_COOLDOWN=300
 MAX_CONSECUTIVE_REBOOTS=3
 
 
+#For load_config_overrides()
+#Local Config File Overrides
+#Example: Add "STARTUP_DELAY=240" to $CONFIG_OVERRIDE_FILE to change it from the default
+CONFIG_OVERRIDE_FILE="$HOME/.config/pi-kiosk/network-watchdog.conf"
+
+
+
+###############################################################################
+# Local Configuration Override
+###############################################################################
+
+load_config_overrides() {
+#Load Local Config File Overrides if they exist
+
+    if [[ -f "$CONFIG_OVERRIDE_FILE" ]]
+
+    then
+        log "Loading local configuration: $CONFIG_OVERRIDE_FILE"
+        source "$CONFIG_OVERRIDE_FILE"
+    else
+        log "No local configuration override found. Using defaults."
+    fi
+}
+
+
+
 ###############################################################################
 # Runtime State Variables
 ###############################################################################
@@ -767,6 +793,8 @@ main_loop() {
 initialize_state
 
 load_state
+
+load_config_overrides
 
 log_startup
 

@@ -1,5 +1,5 @@
 ## DISCLAIMER:
-Code written mostly by ChatGPT, while I decided the final logic of the code, and put together and tested every line. README.md made entirely by me, except the folder/script structure flow diagrams. Currently no longer in active development, I am satisfied with how it works 😌
+Code written mostly by ChatGPT, while I decided the final logic of the code, and put together and tested every line. README.md made entirely by me, except the folder/script structure flow diagrams. Currently no longer in super active development, I am satisfied with how it works 😌
 
 ## Introduction
 Hello my good Jesus beloved human bean who so happens to be reading this(: This is a collection of bash scripts and systemd user services that manage those scripts, that when put together and setup create what I like to call, The Ultimate Raspberry Pi Kiosk Setup 😎.
@@ -230,7 +230,17 @@ To view live logs:
 journalctl -t network-watchdog -f
 ```
 - **Control:**  
-`systemctl --user start/stop/restart network-watchdog.service`
+`systemctl --user start/stop/restart network-watchdog.service`  
+- **Custom Configuration Override File:**  
+`$HOME/.config/pi-kiosk/network-watchdog.conf`  
+Example:  
+
+```bash
+CHECK_INTERVAL=120
+FAILURE_CONFIRMATIONS=5
+REBOOT_COOLDOWN=600
+```
+
 - **Status:** Ready
 
 ### 4. network-watchdog-summary.service
@@ -338,12 +348,14 @@ chmod +x ./setup/install.sh
 
 <pre>
 $HOME/.config/
-└── systemd
-    └── user
-        ├── firefox-kiosk.service
-        ├── network-watchdog.service
-        ├── network-watchdog-summary.service
-        └── network-watchdog-summary.timer
+├── systemd
+│   └── user
+│       ├── firefox-kiosk.service
+│       ├── network-watchdog.service
+│       ├── network-watchdog-summary.service
+│       └── network-watchdog-summary.timer
+└── pi-kiosk
+    └── network-watchdog.conf
 </pre>
 
 <pre>
