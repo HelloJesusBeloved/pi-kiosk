@@ -3,4 +3,4 @@ Description=Network Watchdog Daily Summary
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/network-watchdog-summary.sh
+ExecStart=%h/.local/bin/pi-kiosk/network-watchdog-summary.sh

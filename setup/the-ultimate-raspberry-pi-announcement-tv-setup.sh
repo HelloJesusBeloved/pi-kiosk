@@ -25,26 +25,23 @@ done
 
 #Configuration Variables:
 
+BIN_DIR="$HOME/.local/bin/pi-kiosk"
+
 CRON_JOBS=(
     "0 2 * * * root apt update && apt full-upgrade -y && reboot"
     "@reboot root /usr/sbin/iw dev wlan0 set power_save off"
 )
 
 ALIASES=(
-    "alias mouse='$REPO_ROOT/hide-cursor/cursor-toggle.sh'"
-    "alias mousee='$REPO_ROOT/hide-cursor/cursor-toggle.sh && exit'"
-)
-
-ALIASES_TO_REMOVE=(
-    "alias mouse='$HOME/Setup/cursor-toggle.sh'"
-    "alias mousee='$HOME/Setup/cursor-toggle.sh && exit'"
+    "alias mouse='$BIN_DIR/cursor-toggle.sh'"
+    "alias mousee='$BIN_DIR/cursor-toggle.sh && exit'"
 )
 
 #The image in the $WALLPAPER directory will be set as the Raspberry Pi's desktop wallpaper
 WALLPAPER="$REPO_ROOT/assets/wallpaper"
 SET_WALLPAPER="$(find "$WALLPAPER" -maxdepth 1 -type f -print -quit)"
 
-SCRIPTS_TO_MAKE_EXECUTABLE=(
+HIDE_CURSOR_SCRIPTS=(
     "$REPO_ROOT/hide-cursor/cursor-hide.sh"
     "$REPO_ROOT/hide-cursor/cursor-show.sh"
     "$REPO_ROOT/hide-cursor/cursor-toggle.sh"
@@ -82,30 +79,29 @@ do
     fi
 done
 
-#Add Aliases
+# Install hide-cursor scripts
+mkdir -p "$BIN_DIR"
+
+for script in "${HIDE_CURSOR_SCRIPTS[@]}"
+do
+    install -m 755 "$script" "$BIN_DIR"
+done
+
+# Replace any existing mouse/mousee aliases so old clone-path or Setup-dir
+# aliases do not stack and conflict.
+if [ -f "$HOME/.bashrc" ]
+then
+    sed -i '/^alias mouse=/d; /^alias mousee=/d' "$HOME/.bashrc"
+fi
+
 for alias in "${ALIASES[@]}"
 do
-    if ! grep -Fxq "$alias" "$HOME/.bashrc"
-    then
-        echo "$alias" >> "$HOME/.bashrc"
-    fi
-done
-
-#Remove my old alias's (does nothing if you don't have them)
-for alias in "${ALIASES_TO_REMOVE[@]}"
-do
-    sed -i "\|^${alias}$|d" "$HOME/.bashrc"
-done
-
-#Make necessary scripts executable
-for script in "${SCRIPTS_TO_MAKE_EXECUTABLE[@]}"
-do
-    chmod +x "$script"
+    echo "$alias" >> "$HOME/.bashrc"
 done
 
 #Run the hide-cursor scripts once to install the neccessarry dependencies
-$REPO_ROOT/hide-cursor/cursor-show.sh
-$REPO_ROOT/hide-cursor/cursor-hide.sh
+"$BIN_DIR/cursor-show.sh"
+"$BIN_DIR/cursor-hide.sh"
 
 #Make the Desktop Config File and Hide The Wastebin and Set Fairmount Wallpaper
 mkdir -p ~/.config/pcmanfm/default

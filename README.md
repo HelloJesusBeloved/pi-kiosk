@@ -342,7 +342,8 @@ chmod +x ./setup/install.sh
     Note: "Personal" Pi Connect accounts are entirely free, while Business accounts have a fee (albeit a very small one). I believe the only perk of a Business account over a Personal one is that you are able to have multiple user accounts access the Pi, and you are able to transfer ownership. However, using a Personal account for your business is perfectly aloud by Raspberry Pi, just make sure to use an email that people who you want can have access to sign in (like IT@your-company.com, so you don't lose access to all your Pi's once your IT guy who's been holding up the company for years leaves;)
 
 4. **Make Mouse Invisible**  
-- To toggle the mouse's visibility, type and enter "mouse" in the terminal. To toggle the mouse and exit the terminal, type and enter "mousee"
+- To toggle the mouse's visibility, type and enter "mouse" in the terminal. To toggle the mouse and exit the terminal, type and enter "mousee"  
+- Both aliases run `$HOME/.local/bin/pi-kiosk/cursor-toggle.sh`
 
 ## Ending File Structure:
 
@@ -361,9 +362,13 @@ $HOME/.config/
 <pre>
 $HOME/.local
 ├── bin
-│   ├── firefox-kiosk.sh
-│   ├── network-watchdog.sh
-│   └── network-watchdog-summary.sh
+│   └── pi-kiosk
+│       ├── firefox-kiosk.sh
+│       ├── network-watchdog.sh
+│       ├── network-watchdog-summary.sh
+│       ├── cursor-hide.sh
+│       ├── cursor-show.sh
+│       └── cursor-toggle.sh
 └── share
     └── pi-kiosk
         └── network-watchdog.state

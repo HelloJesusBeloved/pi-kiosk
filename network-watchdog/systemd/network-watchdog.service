@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 
-ExecStart=%h/.local/bin/network-watchdog.sh
+ExecStart=%h/.local/bin/pi-kiosk/network-watchdog.sh
 
 Restart=on-failure
 RestartSec=10

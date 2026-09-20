@@ -12,9 +12,9 @@
 
 - [x] Make sure network-watchdog isn't triggered when the sheduled 3am reboot happens
 
-- [ ] Probably install hide-cursor scripts to bin?
+- [x] Probably install hide-cursor scripts to bin?
 
-- [ ] Maybe just remove any old mouse and mousee alias's from the bashrc so if you install pi-kiosk in a different dir you don't get multiple that conflict
+- [x] Maybe just remove any old mouse and mousee alias's from the bashrc so if you install pi-kiosk in a different dir you don't get multiple that conflict
 
 - [x] Make turpats run mouse once to download and install first runtime dependancys
 

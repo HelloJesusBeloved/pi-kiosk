@@ -26,7 +26,8 @@ done
 # Installation Locations
 ###############################################################################
 
-BIN_DIR="$HOME/.local/bin"
+BIN_DIR="$HOME/.local/bin/pi-kiosk"
+OLD_BIN_DIR="$HOME/.local/bin"
 
 SYSTEMD_USER_DIR="$HOME/.config/systemd/user"
 
@@ -296,6 +297,9 @@ else
     echo "ERROR: Failed to install network-watchdog-summary.sh"
     exit 1
 fi
+
+# Remove copies left from older installs that placed the script directly in ~/.local/bin
+rm -f "$OLD_BIN_DIR/network-watchdog-summary.sh"
 
 
 # Install the systemd service.

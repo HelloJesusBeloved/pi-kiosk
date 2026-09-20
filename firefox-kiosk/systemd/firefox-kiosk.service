@@ -10,7 +10,7 @@ Environment=WAYLAND_DISPLAY=wayland-0
 Environment=XDG_RUNTIME_DIR=/run/user/1000
 
 # The kiosk controller script
-ExecStart=%h/.local/bin/firefox-kiosk.sh
+ExecStart=%h/.local/bin/pi-kiosk/firefox-kiosk.sh
 
 # If the controller exits unexpectedly,
 # restart it after a short delay.

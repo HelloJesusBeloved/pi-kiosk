@@ -7,7 +7,8 @@ set -e
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-BIN_DIR="$HOME/.local/bin"
+BIN_DIR="$HOME/.local/bin/pi-kiosk"
+OLD_BIN_DIR="$HOME/.local/bin"
 SYSTEMD_USER_DIR="$HOME/.config/systemd/user/"
 
 OLD_FILE="$HOME/.config/autostart/firefox.desktop"
@@ -45,6 +46,9 @@ mkdir -p "$SYSTEMD_USER_DIR"
 
 install -m 755 "$REPO_ROOT/network-watchdog/network-watchdog.sh" "$BIN_DIR"
 install -m 755 "$REPO_ROOT/firefox-kiosk/firefox-kiosk.sh" "$BIN_DIR"
+
+# Remove copies left from older installs that placed scripts directly in ~/.local/bin
+rm -f "$OLD_BIN_DIR/network-watchdog.sh" "$OLD_BIN_DIR/firefox-kiosk.sh"
 
 install -m 644 "$REPO_ROOT/network-watchdog/systemd/network-watchdog.service" "$SYSTEMD_USER_DIR"
 install -m 644 "$REPO_ROOT/firefox-kiosk/systemd/firefox-kiosk.service" "$SYSTEMD_USER_DIR"
