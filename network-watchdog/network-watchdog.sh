@@ -681,6 +681,23 @@ request_reboot() {
 }
 
 
+record_boot_success() {
+
+    if [[ "$WATCHDOG_REBOOT" == "true" ]]
+    then
+        log "Watchdog reboot completed successfully."
+    fi
+
+    LAST_SUCCESS_TIME="$(date '+%F %T')"
+
+    WATCHDOG_REBOOT=false
+    CONSECUTIVE_REBOOTS=0
+
+    save_state
+
+}
+
+
 recover_network() {
 
     if [[ "$NETWORK_HEALTH" == "HEALTHY" ]]
@@ -809,5 +826,10 @@ build_network_state
 LAST_NETWORK_STATE="$CURRENT_NETWORK_STATE"
 
 log_network_state
+
+if [[ "$NETWORK_HEALTH" == "HEALTHY" ]]
+then
+    record_boot_success
+fi
 
 main_loop
