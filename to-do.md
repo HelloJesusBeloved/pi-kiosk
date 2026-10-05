@@ -2,7 +2,7 @@
 
 - [x]Make turpats remove my old alias's
 
-- [ ]Figure out how to actually make journalctl logs permanent and add it to turpats
+- [x]Figure out how to actually make journalctl logs permanent and add it to turpats
 
 - [x] Add ntfy support to network-watchdog
 

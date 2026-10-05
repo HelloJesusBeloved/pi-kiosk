@@ -111,6 +111,82 @@ fi
 sed -i 's|show_trash=1|show_trash=0|' $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 sed -i "s|wallpaper=.*|wallpaper=$SET_WALLPAPER|" $HOME/.config/pcmanfm/default/desktop-items-HDMI-A-1.conf
 
+
+###############################################################################
+# BEGIN TEMPORARY CLEANUP — REMOVE AFTER RUNNING ON ALL EXISTING PIS
+###############################################################################
+
+# Restore the manually changed Storage line in the main configuration.
+# Keep a one-time backup and preserve all other settings and comments.
+JOURNAL_MAIN="/etc/systemd/journald.conf"
+
+if [[ -f "$JOURNAL_MAIN" ]]
+then
+    if [[ ! -e "${JOURNAL_MAIN}.before-pi-kiosk" ]]
+    then
+        sudo cp -a "$JOURNAL_MAIN" "${JOURNAL_MAIN}.before-pi-kiosk" || {
+            echo "ERROR: Failed to back up $JOURNAL_MAIN to ${JOURNAL_MAIN}.before-pi-kiosk. Exiting." >&2
+            exit 1
+        }
+    fi
+
+    sudo sed -i -E \
+        's/^[[:space:]]*Storage[[:space:]]*=[[:space:]]*persistent[[:space:]]*$/#Storage=auto/' \
+        "$JOURNAL_MAIN" || {
+            echo "ERROR: Failed to reset the Storage setting in $JOURNAL_MAIN. Exiting." >&2
+            exit 1
+        }
+fi
+
+# END TEMPORARY CLEANUP
+
+
+###############################################################################
+# KEEP THIS SECTION — Persistent Journal Configuration
+###############################################################################
+
+echo "Configuring persistent journal storage..."
+
+sudo install -d -m 755 /etc/systemd/journald.conf.d || {
+    echo "ERROR: Failed to create or set permissions on /etc/systemd/journald.conf.d. Exiting." >&2
+    exit 1
+}
+
+if ! sudo tee /etc/systemd/journald.conf.d/90-local-journal.conf >/dev/null <<'JOURNAL_CONFIG'
+[Journal]
+Storage=persistent
+MaxRetentionSec=30day
+MaxFileSec=1day
+SystemMaxUse=1G
+JOURNAL_CONFIG
+then
+    echo "ERROR: Failed to write /etc/systemd/journald.conf.d/90-local-journal.conf. Exiting." >&2
+    exit 1
+fi
+
+sudo chmod 644 /etc/systemd/journald.conf.d/90-local-journal.conf || {
+    echo "ERROR: Failed to set permissions on /etc/systemd/journald.conf.d/90-local-journal.conf. Exiting." >&2
+    exit 1
+}
+
+sudo systemctl restart systemd-journald.service || {
+    echo "ERROR: Failed to restart systemd-journald.service. Exiting." >&2
+    exit 1
+}
+
+sudo journalctl --flush || {
+    echo "ERROR: Failed to flush the runtime journal to persistent storage. Exiting." >&2
+    exit 1
+}
+
+sudo journalctl --sync || {
+    echo "ERROR: Failed to synchronize pending journal writes to storage. Exiting." >&2
+    exit 1
+}
+
+echo "Persistent journal configured: 30-day retention, with a 1 GiB size budget."
+
+
 #Ask To Reboot
 echo "
 Kindly reboot my good sir(:"
